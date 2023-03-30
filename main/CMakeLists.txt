@@ -1,2 +1,4 @@
 idf_component_register(SRCS "src/main.c"
-                    INCLUDE_DIRS "." "include")
+                            "src/Pilote/piloteDetectionPiece.c"
+                            "src/Interface/detectionPiece.c"
+                    INCLUDE_DIRS "." "./include")
