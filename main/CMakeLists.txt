@@ -1,4 +1,7 @@
 idf_component_register(SRCS "src/main.c"
                             "src/Pilote/piloteDetectionPiece.c"
+                            "src/Pilote/piloteElectroaimant.c"
+                            "src/Pilote/piloteMoteur1.c"
+                            "src/Pilote/piloteMoteur2.c"
                             "src/Interface/detectionPiece.c"
                     INCLUDE_DIRS "." "./include")

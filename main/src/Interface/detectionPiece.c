@@ -30,10 +30,10 @@ void detectionPiece_litLaCase(unsigned char coordonnee)
         return ;
     }
 
-    // gpio_set_level(PILOTEPIECEDETECTION_S0_PIN, (valeur & 0x01));
-    // gpio_set_level(PILOTEPIECEDETECTION_S1_PIN, (valeur & 0x02) >> 1);
-    // gpio_set_level(PILOTEPIECEDETECTION_S2_PIN, (valeur & 0x04) >> 2);
-    // gpio_set_level(PILOTEPIECEDETECTION_S3_PIN, (valeur & 0x08) >> 3);
+    // gpio_set_level(PILOTEDETECTIONPIECE_S0_PIN, (valeur & 0x01));
+    // gpio_set_level(PILOTEDETECTIONPIECE_S1_PIN, (valeur & 0x02) >> 1);
+    // gpio_set_level(PILOTEDETECTIONPIECE_S2_PIN, (valeur & 0x04) >> 2);
+    // gpio_set_level(PILOTEDETECTIONPIECE_S3_PIN, (valeur & 0x08) >> 3);
 
 }
 

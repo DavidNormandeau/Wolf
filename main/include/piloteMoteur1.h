@@ -1,7 +1,7 @@
-#ifndef PILOTEELECTROAIMANT_H
-#define PILOTEELECTROAIMANT_H
+#ifndef PILOTEMOTEUR1_H
+#define PILOTEMOTEUR1_H
 
-//MODULE: piloteElectroaimant
+//MODULE: piloteMoteur1
 //DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
@@ -9,7 +9,7 @@
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
 //(copiez et adaptez ce qui suit dans "main.h")
-// #define PILOTEELECTROAIMANT_PIN        GPIO_NUM_35
+// #define PILOTEMOTEUR1_PIN        GPIO_NUM_35
 
 
 
@@ -22,8 +22,9 @@
 //pas de definitions publiques
 
 //Fonctions publiques:
-void piloteElectroaimant_metLaSortieA(unsigned char valeur);
-void piloteElectroaimant_initialise(void);
+void piloteMoteur1_metDirA(unsigned char valeur);
+void piloteMoteur1_metStepA(unsigned char valeur);
+void piloteMoteur1_initialise(void);
 
 //Variables publiques:
 // pas de variables publiques

@@ -1,14 +1,14 @@
-//piloteElectroaimant:
+//piloteMoteur2:
 //Historique: 
 // 2023-03-30, David Normandeau, creation
 
 //INCLUSIONS
 #include "driver/gpio.h"
 #include "main.h"
-#include "piloteElectroaimant.h"
+#include "piloteMoteur2.h"
 
 //Definitions privees
- static const char* TAG = "PILOTEELECTROAIMANT";
+//  static const char* TAG = "PILOTEMOTEUR2";
 
 //Declarations de fonctions privees:
 //pas de fonction privees
@@ -23,16 +23,21 @@
 // pas de variables publiques
 
 //Definitions de fonctions publiques:
-void piloteElectroaimant_metLaSortieA(unsigned char valeur)
+void piloteMoteur2_metDirA(unsigned char valeur)
 {
-    gpio_set_level(PILOTEELECTROAIMANT_PIN, valeur);
+    gpio_set_level(PILOTEMOTEUR2_DIR_PIN, valeur);
+}
+
+void piloteMoteur2_metStepA(unsigned char valeur)
+{
+    gpio_set_level(PILOTEMOTEUR2_STEP_PIN, valeur);
 }
 
 
-void piloteElectroaimant_initialise(void)
+void piloteMoteur2_initialise(void)
 {
     gpio_config_t conf = {
-        .pin_bit_mask = (1ULL<<PILOTEELECTROAIMANT_PIN),               
+        .pin_bit_mask = ((1ULL<<PILOTEMOTEUR2_DIR_PIN) | (1ULL<<PILOTEMOTEUR2_STEP_PIN)),               
         .mode = GPIO_MODE_OUTPUT,                  
         .pull_up_en = GPIO_PULLUP_DISABLE,          
         .pull_down_en = GPIO_PULLDOWN_DISABLE,       
