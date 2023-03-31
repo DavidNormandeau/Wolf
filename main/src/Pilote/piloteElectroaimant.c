@@ -8,7 +8,7 @@
 #include "piloteElectroaimant.h"
 
 //Definitions privees
- static const char* TAG = "PILOTEELECTROAIMANT";
+//  static const char* TAG = "PILOTEELECTROAIMANT";
 
 //Declarations de fonctions privees:
 //pas de fonction privees

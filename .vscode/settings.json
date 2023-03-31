@@ -14,5 +14,8 @@
     ],
     "idf.portWin": "COM2",
     "idf.pythonBinPathWin": "C:\\Users\\David\\.espressif\\python_env\\idf5.0_py3.8_env\\Scripts\\python.exe",
-    "idf.toolsPathWin": "C:\\Users\\David\\.espressif"
+    "idf.toolsPathWin": "C:\\Users\\David\\.espressif",
+    "files.associations": {
+        "pilotelimitswitchx.h": "c"
+    }
 }

@@ -34,11 +34,11 @@
 #define PILOTEMOTEUR1_STEP_PIN                  GPIO_NUM_27
 #define PILOTEMOTEUR2_DIR_PIN                   GPIO_NUM_2
 #define PILOTEMOTEUR2_STEP_PIN                  GPIO_NUM_4
-#define PILOTECLKBTNB_PIN                       GPIO_NUM_15
-#define PILOTECLKBTNW_PIN                       GPIO_NUM_19
 #define PILOTELIMITSWITCHX_PIN                  GPIO_NUM_18
-#define PILOTELIMITSWITCHy_PIN                  GPIO_NUM_5
+#define PILOTELIMITSWITCHY_PIN                  GPIO_NUM_5
 #define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_21
+// #define PILOTECLKBTNB_PIN                       GPIO_NUM_15
+// #define PILOTECLKBTNW_PIN                       GPIO_NUM_19
 
 #define A1  0
 #define A2  8

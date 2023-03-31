@@ -1,11 +1,11 @@
-//piloteLimitSwitchX:
+//piloteLimitSwitchY:
 //Historique: 
 // 2023-03-30, David Normandeau, creation
 
 //INCLUSIONS
 #include "driver/gpio.h"
 #include "main.h"
-#include "piloteLimitSwitchX.h"
+#include "piloteLimitSwitchY.h"
 
 //Definitions privees
 //static const char* TAG = "PILOTELIMITSWITCH";
@@ -23,15 +23,15 @@
 // pas de variables publiques
 
 //Definitions de fonctions publiques:
-unsigned char piloteLimitSwitchX_litLEntree(void)
+unsigned char piloteLimitSwitchY_litLEntree(void)
 {
-    return gpio_get_level(PILOTELIMITSWITCHX_PIN);
+    return gpio_get_level(PILOTELIMITSWITCHY_PIN);
 }
 
-void piloteLimitSwitchX_initialise(void)
+void piloteLimitSwitchY_initialise(void)
 {
     gpio_config_t conf = {
-        .pin_bit_mask = (1ULL<<PILOTELIMITSWITCHX_PIN),               
+        .pin_bit_mask = (1ULL<<PILOTELIMITSWITCHY_PIN),               
         .mode = GPIO_MODE_INPUT,                  
         .pull_up_en = GPIO_PULLUP_DISABLE,          
         .pull_down_en = GPIO_PULLDOWN_DISABLE,       

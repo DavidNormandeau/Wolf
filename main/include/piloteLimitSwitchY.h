@@ -1,7 +1,7 @@
-#ifndef PILOTELIMITSWITCHX_H
-#define PILOTELIMITSWITCHX_H
+#ifndef PILOTELIMITSWITCHY_H
+#define PILOTELIMITSWITCHY_H
 
-//MODULE: piloteLimitSwitchX
+//MODULE: piloteLimitSwitchY
 //DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
@@ -9,7 +9,7 @@
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
 //(copiez et adaptez ce qui suit dans "main.h")
-// #define PILOTELIMITSWITCHX_PIN        GPIO_NUM_35
+// #define PILOTELIMITSWITCHY_PIN        GPIO_NUM_35
 
 
 
@@ -22,8 +22,8 @@
 //pas de definitions publiques
 
 //Fonctions publiques:
-unsigned char piloteLimitSwitchX_litLEntree(void);
-void piloteLimitSwitchX_initialise(void);
+unsigned char piloteLimitSwitchY_litLEntree(void);
+void piloteLimitSwitchY_initialise(void);
 
 //Variables publiques:
 // pas de variables publiques
