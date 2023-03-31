@@ -5,6 +5,7 @@
 #include "piloteLimitSwitchY.h"
 #include "piloteMoteur1.h"
 #include "piloteMoteur2.h"
+#include "piloteUart.h"
 
 //Definitions privees
 //  static const char* TAG = "MAIN";
@@ -40,4 +41,5 @@ void main_initialise()
     piloteLimitSwitchY_initialise();
     piloteMoteur1_initialise();
     piloteMoteur2_initialise();
+    piloteUart_initialise();        //incomplet
 }

@@ -37,6 +37,8 @@
 #define PILOTELIMITSWITCHX_PIN                  GPIO_NUM_18
 #define PILOTELIMITSWITCHY_PIN                  GPIO_NUM_5
 #define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_21
+#define PILOTEUART_TX_PIN                       GPIO_NUM_17
+#define PILOTEUART_RX_PIN                       GPIO_NUM_16
 // #define PILOTECLKBTNB_PIN                       GPIO_NUM_15
 // #define PILOTECLKBTNW_PIN                       GPIO_NUM_19
 
@@ -114,6 +116,7 @@
 // #define INTERFACET1_VALEUR_POUR_ETEINDRE 1
 
 //Dependances logicielles:
+#define PILOTEUART_BAUD_RATE 115200
 // #define FREQUENCE_DE_LA_BASE_DE_TEMPS_EN_HZ 2000.0
 // #define PILOTETIMER1MODE2_TAUX_DE_BITS 19200.0 //9600.0
 // #define PILOTETIMER1MODE2_UTILISE_LE_DOUBLEUR_DE_TAUX  1
