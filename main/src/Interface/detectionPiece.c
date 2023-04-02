@@ -4,6 +4,7 @@
 
 //INCLUSIONS
 #include "main.h"
+#include "piloteDetectionPiece.h"
 #include "detectionPiece.h"
 
 //Definitions privees

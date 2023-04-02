@@ -37,8 +37,8 @@
 #define PILOTELIMITSWITCHX_PIN                  GPIO_NUM_18
 #define PILOTELIMITSWITCHY_PIN                  GPIO_NUM_5
 #define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_21
-#define PILOTEUART_TX_PIN                       GPIO_NUM_17
-#define PILOTEUART_RX_PIN                       GPIO_NUM_16
+#define PILOTEUART2_TX_PIN                      GPIO_NUM_17
+#define PILOTEUART2_RX_PIN                      GPIO_NUM_16
 // #define PILOTECLKBTNB_PIN                       GPIO_NUM_15
 // #define PILOTECLKBTNW_PIN                       GPIO_NUM_19
 
@@ -107,8 +107,10 @@
 #define H7  7
 #define H8  15
 
-#define DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE  0
-#define DETECTIONPIECE_VALEUR_SI_VIDE           1    
+#define DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE      0
+#define DETECTIONPIECE_VALEUR_SI_VIDE               1
+#define ELECTROAIMANT_VALEUR_POUR_ACTIVER_AIMANT    1
+#define ELECTROAIMANT_VALEUR_POUR_ETEINDRE_AIMANT   0    
 // #define INTERFACEB1_VALEUR_LUE_SI_APPUYE  0   
 // #define INTERFACEB1_VALEUR_LUE_SI_RELACHE 1
 // #define INTERFACEB1_DELAI_ANTI_REBOND_EN_MS  15
