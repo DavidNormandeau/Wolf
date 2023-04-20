@@ -6,6 +6,7 @@
 #include "piloteMoteur1.h"
 #include "piloteMoteur2.h"
 #include "piloteUart2.h"
+#include "detectionPiece.h"
 
 //Definitions privees
 //  static const char* TAG = "MAIN";
@@ -22,12 +23,15 @@ void main_initialise();
 
 void app_main(void)
 {
+    unsigned char echiquier[64];
+
     main_initialise();
 
     while(1)
     {
         printf("Hello World!");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+        detectionPiece_litLEchiquier(echiquier);
     }
 }
 
@@ -42,4 +46,5 @@ void main_initialise()
     piloteMoteur1_initialise();
     piloteMoteur2_initialise();
     //piloteUart2_initialise();        //incomplet
+    detectionPiece_initialise();
 }

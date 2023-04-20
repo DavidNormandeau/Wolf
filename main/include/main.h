@@ -42,70 +42,70 @@
 // #define PILOTECLKBTNB_PIN                       GPIO_NUM_15
 // #define PILOTECLKBTNW_PIN                       GPIO_NUM_19
 
-#define A1  0
-#define A2  8
-#define A3  0
-#define A4  8
-#define A5  0
-#define A6  8
-#define A7  0
-#define A8  8
-#define B1  1
-#define B2  9
-#define B3  1
-#define B4  9
-#define B5  1
-#define B6  9
-#define B7  1
-#define B8  9
-#define C1  2
-#define C2  10
-#define C3  2
-#define C4  10
-#define C5  2
-#define C6  10
-#define C7  2
-#define C8  10
-#define D1  3
-#define D2  11
-#define D3  3
-#define D4  11
-#define D5  3
-#define D6  11
-#define D7  3
-#define D8  11
-#define E1  4
-#define E2  12
-#define E3  4
-#define E4  12
-#define E5  4
-#define E6  12
-#define E7  4
-#define E8  12
-#define F1  5
-#define F2  13
-#define F3  5
-#define F4  13
-#define F5  5
-#define F6  13
-#define F7  5
-#define F8  13
-#define G1  6
-#define G2  14
-#define G3  6
-#define G4  14
-#define G5  6
-#define G6  14
-#define G7  6
-#define G8  14
-#define H1  7
-#define H2  15
-#define H3  7
-#define H4  15
-#define H5  7
-#define H6  15
-#define H7  7
-#define H8  15
+// #define A1  0
+// #define A2  8
+// #define A3  0
+// #define A4  8
+// #define A5  0
+// #define A6  8
+// #define A7  0
+// #define A8  8
+// #define B1  1
+// #define B2  9
+// #define B3  1
+// #define B4  9
+// #define B5  1
+// #define B6  9
+// #define B7  1
+// #define B8  9
+// #define C1  2
+// #define C2  10
+// #define C3  2
+// #define C4  10
+// #define C5  2
+// #define C6  10
+// #define C7  2
+// #define C8  10
+// #define D1  3
+// #define D2  11
+// #define D3  3
+// #define D4  11
+// #define D5  3
+// #define D6  11
+// #define D7  3
+// #define D8  11
+// #define E1  4
+// #define E2  12
+// #define E3  4
+// #define E4  12
+// #define E5  4
+// #define E6  12
+// #define E7  4
+// #define E8  12
+// #define F1  5
+// #define F2  13
+// #define F3  5
+// #define F4  13
+// #define F5  5
+// #define F6  13
+// #define F7  5
+// #define F8  13
+// #define G1  6
+// #define G2  14
+// #define G3  6
+// #define G4  14
+// #define G5  6
+// #define G6  14
+// #define G7  6
+// #define G8  14
+// #define H1  7
+// #define H2  15
+// #define H3  7
+// #define H4  15
+// #define H5  7
+// #define H6  15
+// #define H7  7
+// #define H8  15
 
 #define DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE      0
 #define DETECTIONPIECE_VALEUR_SI_VIDE               1
@@ -143,6 +143,19 @@
 // #define PROCESSUSCLIGNOTANT_PHASE 6
 
 // #define SERVICEPROTOCOLE637_DEBUG //activation de messages de debug
+
+typedef enum
+{
+   A1 = 0, B1, C1, D1, E1, F1, G1, H1,
+   A2, B2, C2, D2, E2, F2, G2, H2,
+   A3, B3, C3, D3, E3, F3, G3, H3,
+   A4, B4, C4, D4, E4, F4, G4, H4,
+   A5, B5, C5, D5, E5, F5, G5, H5,
+   A6, B6, C6, D6, E6, F6, G6, H6,
+   A7, B7, C7, D7, E7, F7, G7, H7,
+   A8, B8, C8, D8, E8, F8, G8, H8 
+} case_t;
+
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:

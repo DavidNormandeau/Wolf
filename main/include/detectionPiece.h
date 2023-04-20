@@ -20,6 +20,8 @@
 //pas de definitions publiques
 
 //Fonctions publiques:
+unsigned char detectionPiece_litLaCase(case_t caseALire);
+void detectionPiece_litLEchiquier(unsigned char* echiquier);
 void detectionPiece_initialise(void);
 
 //Variables publiques:
