@@ -156,6 +156,21 @@ typedef enum
    A8, B8, C8, D8, E8, F8, G8, H8 
 } case_t;
 
+typedef struct
+{
+   unsigned char r0  : 1,
+   unsigned char r1  : 1,
+   unsigned char r2  : 1,
+   unsigned char r3  : 1,
+   unsigned char r4  : 1,
+   unsigned char r5  : 1,
+   unsigned char r6  : 1,
+   unsigned char r7  : 1,
+
+} rank_bit_t;
+
+enum file { FILE_A = 0, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H};
+
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
