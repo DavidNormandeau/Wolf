@@ -3,8 +3,8 @@
 #include "piloteElectroaimant.h"
 #include "piloteLimitSwitchX.h"
 #include "piloteLimitSwitchY.h"
-#include "piloteMoteur1.h"
-#include "piloteMoteur2.h"
+#include "piloteMoteurGauche.h"
+#include "piloteMoteurDroit.h"
 #include "piloteUart2.h"
 #include "detectionPiece.h"
 
@@ -43,8 +43,8 @@ void main_initialise()
     piloteElectroaimant_initialise();
     piloteLimitSwitchX_initialise();
     piloteLimitSwitchY_initialise();
-    piloteMoteur1_initialise();
-    piloteMoteur2_initialise();
+    piloteMoteurGauche_initialise();
+    piloteMoteurDroit_initialise();
     //piloteUart2_initialise();        //incomplet
     detectionPiece_initialise();
 }

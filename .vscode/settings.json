@@ -1,21 +1,18 @@
 {
     "C_Cpp.intelliSenseEngine": "Tag Parser",
     "idf.adapterTargetName": "esp32",
-    "idf.customExtraPaths": "C:\\Users\\David\\.espressif\\tools\\xtensa-esp-elf-gdb\\11.2_20220823\\xtensa-esp-elf-gdb\\bin;C:\\Users\\David\\.espressif\\tools\\riscv32-esp-elf-gdb\\11.2_20220823\\riscv32-esp-elf-gdb\\bin;C:\\Users\\David\\.espressif\\tools\\xtensa-esp32-elf\\esp-2022r1-11.2.0\\xtensa-esp32-elf\\bin;C:\\Users\\David\\.espressif\\tools\\xtensa-esp32s2-elf\\esp-2022r1-11.2.0\\xtensa-esp32s2-elf\\bin;C:\\Users\\David\\.espressif\\tools\\xtensa-esp32s3-elf\\esp-2022r1-11.2.0\\xtensa-esp32s3-elf\\bin;C:\\Users\\David\\.espressif\\tools\\riscv32-esp-elf\\esp-2022r1-11.2.0\\riscv32-esp-elf\\bin;C:\\Users\\David\\.espressif\\tools\\esp32ulp-elf\\2.35_20220830\\esp32ulp-elf\\bin;C:\\Users\\David\\.espressif\\tools\\cmake\\3.24.0\\bin;C:\\Users\\David\\.espressif\\tools\\openocd-esp32\\v0.11.0-esp32-20221026\\openocd-esp32\\bin;C:\\Users\\David\\.espressif\\tools\\ninja\\1.10.2;C:\\Users\\David\\.espressif\\tools\\idf-exe\\1.0.3;C:\\Users\\David\\.espressif\\tools\\ccache\\4.6.2\\ccache-4.6.2-windows-x86_64;C:\\Users\\David\\.espressif\\tools\\dfu-util\\0.9\\dfu-util-0.9-win64;C:\\Users\\David\\.espressif\\tools\\esp-rom-elfs\\20220823",
+    "idf.customExtraPaths": "C:\\Users\\2064035\\.espressif\\tools\\xtensa-esp-elf-gdb\\11.2_20220823\\xtensa-esp-elf-gdb\\bin;C:\\Users\\2064035\\.espressif\\tools\\riscv32-esp-elf-gdb\\11.2_20220823\\riscv32-esp-elf-gdb\\bin;C:\\Users\\2064035\\.espressif\\tools\\xtensa-esp32-elf\\esp-2022r1-11.2.0\\xtensa-esp32-elf\\bin;C:\\Users\\2064035\\.espressif\\tools\\xtensa-esp32s2-elf\\esp-2022r1-11.2.0\\xtensa-esp32s2-elf\\bin;C:\\Users\\2064035\\.espressif\\tools\\xtensa-esp32s3-elf\\esp-2022r1-11.2.0\\xtensa-esp32s3-elf\\bin;C:\\Users\\2064035\\.espressif\\tools\\riscv32-esp-elf\\esp-2022r1-11.2.0\\riscv32-esp-elf\\bin;C:\\Users\\2064035\\.espressif\\tools\\esp32ulp-elf\\2.35_20220830\\esp32ulp-elf\\bin;C:\\Users\\2064035\\.espressif\\tools\\cmake\\3.24.0\\bin;C:\\Users\\2064035\\.espressif\\tools\\openocd-esp32\\v0.11.0-esp32-20221026\\openocd-esp32\\bin;C:\\Users\\2064035\\.espressif\\tools\\ninja\\1.10.2;C:\\Users\\2064035\\.espressif\\tools\\idf-exe\\1.0.3;C:\\Users\\2064035\\.espressif\\tools\\ccache\\4.6.2\\ccache-4.6.2-windows-x86_64;C:\\Users\\2064035\\.espressif\\tools\\dfu-util\\0.9\\dfu-util-0.9-win64;C:\\Users\\2064035\\.espressif\\tools\\esp-rom-elfs\\20220823",
     "idf.customExtraVars": {
-        "OPENOCD_SCRIPTS": "C:\\Users\\David\\.espressif\\tools\\openocd-esp32\\v0.11.0-esp32-20221026/openocd-esp32/share/openocd/scripts",
+        "OPENOCD_SCRIPTS": "C:\\Users\\2064035\\.espressif\\tools\\openocd-esp32\\v0.11.0-esp32-20221026/openocd-esp32/share/openocd/scripts",
         "IDF_CCACHE_ENABLE": "1",
-        "ESP_ROM_ELF_DIR": "C:\\Users\\David\\.espressif\\tools\\esp-rom-elfs\\20220823/"
+        "ESP_ROM_ELF_DIR": "C:\\Users\\2064035\\.espressif\\tools\\esp-rom-elfs\\20220823/"
     },
-    "idf.espIdfPathWin": "C:\\Users\\David\\esp\\esp-idf",
+    "idf.espIdfPathWin": "C:\\Users\\2064035\\esp\\esp-idf",
     "idf.openOcdConfigs": [
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32.cfg"
     ],
     "idf.portWin": "COM2",
-    "idf.pythonBinPathWin": "C:\\Users\\David\\.espressif\\python_env\\idf5.0_py3.8_env\\Scripts\\python.exe",
-    "idf.toolsPathWin": "C:\\Users\\David\\.espressif",
-    "files.associations": {
-        "pilotelimitswitchx.h": "c"
-    }
+    "idf.pythonBinPathWin": "C:\\Users\\2064035\\.espressif\\python_env\\idf5.0_py3.8_env\\Scripts\\python.exe",
+    "idf.toolsPathWin": "C:\\Users\\2064035\\.espressif"
 }

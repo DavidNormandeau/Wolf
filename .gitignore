@@ -54,3 +54,4 @@ dkms.conf
 #folders
 .devcontainer
 build
+.vscode

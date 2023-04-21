@@ -28,16 +28,16 @@ void moteurGauche_tourneDe(int nbreDeSteps, int vitesse)
 {
     for(int i; i < nbreDeSteps; i++)
     {
-        piloteMoteur1_metStepA(1);
+        piloteMoteurGauche_metStepA(1);
         //delay
-        piloteMoteur1_metStepA(0);
+        piloteMoteurGauche_metStepA(0);
         //delay
     }
 }
 
 void moteurGauche_setLaDirection(direction_t direction)
 {
-    piloteMoteur1_metDirA(direction);
+    piloteMoteurGauche_metDirA(direction);
 }
 
 void moteurGauche_initialise(void)

@@ -1,7 +1,7 @@
-#ifndef PILOTEMOTEUR2_H
-#define PILOTEMOTEUR2_H
+#ifndef PILOTEMOTEURDROIT_H
+#define PILOTEMOTEURDROIT_H
 
-//MODULE: piloteMoteur2
+//MODULE: piloteMoteurDroit
 //DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
@@ -9,7 +9,7 @@
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
 //(copiez et adaptez ce qui suit dans "main.h")
-// #define PILOTEMOTEUR1_PIN        GPIO_NUM_35
+// #define PILOTEMOTEURDROIT_PIN        GPIO_NUM_35
 
 
 
@@ -22,9 +22,9 @@
 //pas de definitions publiques
 
 //Fonctions publiques:
-void piloteMoteur2_metDirA(unsigned char valeur);
-void piloteMoteur2_metStepA(unsigned char valeur);
-void piloteMoteur2_initialise(void);
+void piloteMoteurDroit_metDirA(unsigned char valeur);
+void piloteMoteurDroit_metStepA(unsigned char valeur);
+void piloteMoteurDroit_initialise(void);
 
 //Variables publiques:
 // pas de variables publiques
