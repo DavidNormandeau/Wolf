@@ -14,13 +14,15 @@
 //Declarations de fonctions privees:
 void main_initialise();
 
+//Definitions de variables publiques:
+QueueHandle_t queueDeplacementPiece;
+QueueHandle_t queueGestionControleur1;
+SemaphoreHandle_t semaphoreCalibration = NULL;
+
 //Definitions de variables privees:
 //pas de variables privees
 
 //Definitions de fonctions privees:
-//pas de fonctions privees
-
-
 void app_main(void)
 {
     unsigned char echiquier[64];
@@ -31,7 +33,7 @@ void app_main(void)
     {
         printf("Hello World!");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-        detectionPiece_litLEchiquier(echiquier);
+
     }
 }
 
@@ -48,3 +50,6 @@ void main_initialise()
     //piloteUart2_initialise();        //incomplet
     detectionPiece_initialise();
 }
+
+
+

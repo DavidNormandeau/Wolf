@@ -18,29 +18,30 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
+#include "freertos/semphr.h"
 #include "driver/gpio.h"
 
 //Dependances materielles:
-#define PILOTEDETECTIONPIECE_S0_PIN             GPIO_NUM_36
-#define PILOTEDETECTIONPIECE_S1_PIN             GPIO_NUM_39
-#define PILOTEDETECTIONPIECE_S2_PIN             GPIO_NUM_34
-#define PILOTEDETECTIONPIECE_S3_PIN             GPIO_NUM_35
-#define PILOTEDETECTIONPIECE_EN1_2_PIN          GPIO_NUM_25
-#define PILOTEDETECTIONPIECE_EN3_4_PIN          GPIO_NUM_33
-#define PILOTEDETECTIONPIECE_EN5_6_PIN          GPIO_NUM_23
-#define PILOTEDETECTIONPIECE_EN7_8_PIN          GPIO_NUM_22 
-#define PILOTEDETECTIONPIECE_COM_PIN            GPIO_NUM_32
-#define PILOTEMOTEURGAUCHE_DIR_PIN                   GPIO_NUM_26
-#define PILOTEMOTEURGAUCHE_STEP_PIN                  GPIO_NUM_27
-#define PILOTEMOTEURDROIT_DIR_PIN                   GPIO_NUM_2
-#define PILOTEMOTEURDROIT_STEP_PIN                  GPIO_NUM_4
-#define PILOTELIMITSWITCHX_PIN                  GPIO_NUM_18
-#define PILOTELIMITSWITCHY_PIN                  GPIO_NUM_5
-#define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_21
+#define PILOTEDETECTIONPIECE_S0_PIN             GPIO_NUM_32
+#define PILOTEDETECTIONPIECE_S1_PIN             GPIO_NUM_33
+#define PILOTEDETECTIONPIECE_S2_PIN             GPIO_NUM_25
+#define PILOTEDETECTIONPIECE_S3_PIN             GPIO_NUM_26
+#define PILOTEDETECTIONPIECE_EN1_2_PIN          GPIO_NUM_23
+#define PILOTEDETECTIONPIECE_EN3_4_PIN          GPIO_NUM_22
+#define PILOTEDETECTIONPIECE_EN5_6_PIN          GPIO_NUM_4
+#define PILOTEDETECTIONPIECE_EN7_8_PIN          GPIO_NUM_27 
+#define PILOTEDETECTIONPIECE_COM_PIN            GPIO_NUM_36
+#define PILOTEMOTEURGAUCHE_DIR_PIN              GPIO_NUM_5
+#define PILOTEMOTEURGAUCHE_STEP_PIN             GPIO_NUM_18
+#define PILOTEMOTEURDROIT_DIR_PIN               GPIO_NUM_19
+#define PILOTEMOTEURDROIT_STEP_PIN              GPIO_NUM_21
+#define PILOTELIMITSWITCHX_PIN                  GPIO_NUM_34
+#define PILOTELIMITSWITCHY_PIN                  GPIO_NUM_35
+#define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_2
 #define PILOTEUART2_TX_PIN                      GPIO_NUM_17
 #define PILOTEUART2_RX_PIN                      GPIO_NUM_16
-// #define PILOTECLKBTNB_PIN                       GPIO_NUM_15
-// #define PILOTECLKBTNW_PIN                       GPIO_NUM_19
+// #define PILOTECLKBTNB_PIN                       GPIO_NUM_12
+// #define PILOTECLKBTNW_PIN                       GPIO_NUM_39
 
 // #define A1  0
 // #define A2  8
@@ -132,17 +133,26 @@
 // #define SERVICEPROTOCOLE637_INSERTION 0x00
 // #define SERVICEPROTOCOLE637_TEMPS_D_ATTENTE_MAXIMAL_EN_MS 4
 // #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_LECTURES_EN_HZ 2000.0
+#define NBRE_DE_STEP_DANS_UNE_CASE  50 //??????????????????????
+#define COEFFICIENT_DIAGONALE       1.44  //??????????????????????
 
-// #define SERVICEBASEDETEMPS_NOMBRE_DE_PHASES  7
-// #define INTERFACEB1_PHASE 0
-// #define SERVICEPROTOCOLE637_PHASE_RECEPTION 1
-// #define INTERFACES0009_PHASE_RECEPTION 2
-// #define INTERFACES0009_PHASE_TRANSMISSION 5
-// #define SERVICEPROTOCOLE637_PHASE_TRANSMISSION 3
-// #define PROCESSUSBOUTONCONNECTE_PHASE 4
-// #define PROCESSUSCLIGNOTANT_PHASE 6
+#define CHARIOT_POSITION_INITIALE_X    5     //E7
+#define CHARIOT_POSITION_INITIALE_Y    7
 
-// #define SERVICEPROTOCOLE637_DEBUG //activation de messages de debug
+#define TASKCALIBRATION_DEPLACEMENT_X  100      //??????????????à déterminer??????????????en nombre de steps    
+#define TASKCALIBRATION_DEPLACEMENT_y  100
+
+//Tasks
+#define TASKTXUART_STACK_SIZE 2048
+#define TASKTXUART_PRIORITY   2
+#define TASKTXUART_CORE       1   
+
+#define TASKDEPLACEMENTPIECE_STACK_SIZE 2048
+#define TASKDEPLACEMENTPIECE_PRIORITY   2
+#define TASKDEPLACEMENTPIECE_CORE       0 
+
+
+
 
 typedef enum
 {
@@ -171,6 +181,16 @@ typedef struct
 
 enum file { FILE_A = 0, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H};
 
+typedef enum
+{
+   CAPTURE_A_FAIRE = 0,
+   NORMAL,
+   EN_PASSANT,
+   ROQUE_COURT_BLAMC,
+   ROQUE_LONG_BLANC,
+   ROQUE_COURT_NOIR,
+   ROQUE_LONG_NOIR
+} type_deplacement_piece_t;
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
@@ -185,6 +205,11 @@ enum file { FILE_A = 0, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H};
 //pas de fonctions publiques
 
 //Variables publiques:
-//pas de variables publiques
+
+extern QueueHandle_t queueDeplacementPiece;
+extern QueueHandle_t queueGestionControleur1;
+// extern QueueHandle_t queueTxUart;
+// extern QueueHandle_t queueRxUart;
+extern SemaphoreHandle_t semaphoreCalibration;
 #endif
 

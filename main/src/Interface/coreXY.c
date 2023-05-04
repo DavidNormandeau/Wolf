@@ -49,6 +49,7 @@ void coreXY_deplaceEnNombreDeSteps(int nbreDeSteps, direction_t direction, int v
     }
 
     //steps
+    //Peut-être un flag pour l'arreter en cours de mouvement?????????????????
     for(int i = 0; i < nbreDeSteps; i++)
     {
         if(direction == H1_TO_A8 || direction == A8_TO_H1)
