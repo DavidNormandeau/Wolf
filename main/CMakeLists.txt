@@ -14,6 +14,5 @@ idf_component_register(SRCS "src/main.c"
                             "src/Tasks/taskCalibration.c"
                             "src/Tasks/taskDeplacementPiece.c"
                             "src/Tasks/taskGestionControleur1.c"
-                            "src/Tasks/taskRxUart.c"
-                            "src/Tasks/taskTxUart.c"
-                    INCLUDE_DIRS "." "./include")
+                            
+                    INCLUDE_DIRS "." "include")

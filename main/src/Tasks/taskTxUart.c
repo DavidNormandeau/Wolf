@@ -3,7 +3,7 @@
 // 2023-03-30, David Normandeau, creation
 
 //INCLUSIONS
-#include "main.h"
+#include "define.h"
 #include "piloteUart2.h"
 #include "taskTxUart.h"
 
@@ -24,11 +24,11 @@ TaskHandle_t xHandleTaskTxUart = NULL;
 
 
 //Definitions de fonctions publiques:
-int taskTxUart()
+void taskTxUart()
 {
     while(1)
     {
-        if(xQueueReceive(queueTxUart, &))
+        //if(xQueueReceive(queueTxUart, &))
 
         
 

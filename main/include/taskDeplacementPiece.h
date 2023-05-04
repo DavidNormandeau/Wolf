@@ -1,18 +1,18 @@
 #ifndef TASKDEPLACEMENTPIECE_H
 #define TASKDEPLACEMENTPIECE_H
 
-//MODULE: taskTxUart
+//MODULE: taskDeplacementPiece
 //DESCRIPTION: 
 //HISTORIQUE:
 // 2023-04-25, David Normandeau, creation
 
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
-//(copiez et adaptez ce qui suit dans "main.h")
+//(copiez et adaptez ce qui suit dans "define.h")
 
 
 //Dependances logicielles
-//(copiez et adaptez ce qui suit dans "main.h")
+//(copiez et adaptez ce qui suit dans "define.h")
 // pas de dépendances logicielles
 
 //INFORMATION PUBLIQUE:
@@ -32,7 +32,7 @@ typedef struct
 
 
 //Fonctions publiques:
-void taskDeplacementPiece();
+void taskDeplacementPiece(void *pvParameters);
 void taskDeplacementPiece_initialise(void);
 
 //Variables publiques:

@@ -4,7 +4,7 @@
 
 //INCLUSIONS
 #include "driver/gpio.h"
-#include "main.h"
+#include "define.h"
 #include "piloteElectroaimant.h"
 
 //Definitions privees

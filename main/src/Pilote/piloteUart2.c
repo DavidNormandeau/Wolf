@@ -4,7 +4,7 @@
 
 //INCLUSIONS
 #include "driver/uart.h"
-#include "main.h"
+#include "define.h"
 #include "piloteUart2.h"
 
 //Definitions privees

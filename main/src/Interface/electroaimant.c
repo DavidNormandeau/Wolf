@@ -3,7 +3,7 @@
 // 2023-04-02, David Normandeau, creation
 
 //INCLUSIONS
-#include "main.h"
+#include "define.h"
 #include "piloteElectroaimant.h"
 #include "electroaimant.h"
 

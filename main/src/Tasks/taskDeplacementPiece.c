@@ -4,14 +4,15 @@
 
 //INCLUSIONS
 #include <stdlib.h>
-#include "main.h"
+#include "define.h"
+#include "electroaimant.h"
 #include "coreXY.h"
 #include "taskDeplacementPiece.h"
 
 //Definitions privees
 //static const char* TAG = "TASK DEPLACEMENT PIECE";
-#define CAPTURE_A_FAIRE         0
-#define DEPLACEMENT_VERS        1
+// #define CAPTURE_A_FAIRE         0
+// #define DEPLACEMENT_VERS        1
 #define VITESSE_LENTE           3   //en ms
 #define VITESSE_RAPIDE          1   //en ms
 #define ELECTROAIMANT_ETEINT    0
@@ -40,8 +41,8 @@ void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiqu
     }
 
 
-    deplacementXenSteps = abs(positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE;
-    deplacementYenSteps = abs(positionFinale.y - positionInitiale.y) * NBRE_DE_STEP_DANS_UNE_CASE;
+    deplacementXenSteps = abs((int)((positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE));
+    deplacementYenSteps = abs((int)((positionFinale.y - positionInitiale.y) * NBRE_DE_STEP_DANS_UNE_CASE));
     
     if(positionFinale.x > positionInitiale.x)
     {
@@ -69,7 +70,7 @@ void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiqu
 
 void deplaceEnDiagonalALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiquier_t positionFinale, unsigned char vitesse, unsigned char aimante)
 {
-    unsigned int deplacementEnSteps = abs(positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE * COEFFICIENT_DIAGONALE;
+    unsigned int deplacementEnSteps = abs((int)((positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE * COEFFICIENT_DIAGONALE));
 
     if(aimante == ELECTROAIMANT_ACTIF)
     {
@@ -307,7 +308,7 @@ TaskHandle_t xHandleTaskDeplacementPiece = NULL;
 
 
 //Definitions de fonctions publiques:
-int taskDeplacementPiece()
+void taskDeplacementPiece(void * pvParameters)
 {
     coordonneeEchiquier_t positionChariot = {CHARIOT_POSITION_INITIALE_X, CHARIOT_POSITION_INITIALE_Y};
     coordonneeEchiquier_t positionTemp;
@@ -424,5 +425,6 @@ void taskDeplacementPiece_initialise(void)
     );
 
 
-    positionChariot = {CHARIOT_POSITION_INITIALE_X, CHARIOT_POSITION_INITIALE_Y};
+    positionChariot.x = CHARIOT_POSITION_INITIALE_X;
+    positionChariot.y = CHARIOT_POSITION_INITIALE_Y;
 }

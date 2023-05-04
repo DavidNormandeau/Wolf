@@ -3,11 +3,12 @@
 // 2023-03-30, David Normandeau, creation
 
 //INCLUSIONS
-#include "main.h"
+#include "define.h"
+#include "taskDeplacementPiece.h"
 #include "taskGestionControleur1.h"
 
 //Definitions privees
-//static const char* TAG = "TASK TX UART2";
+static const char* TAG = "TASK GESTION CONTROLEUR1";
 
 //Declarations de fonctions privees:
 //pas de fonction privees
@@ -19,11 +20,11 @@
 //pas de fonctions privees
 
 //Definitions de variables publiques:
-TaskHandle_t xHandleTaskGestionControleur1 = NULL;
+TaskHandle_t xHandleTaskGestionControleur1;
 
 
 //Definitions de fonctions publiques:
-int taskGestionControleur1()
+void taskGestionControleur1(void *pvParameters)
 {
     info_deplacement_t deplacementAFaire;
     queueDeplacementPiece = xQueueCreate(5, sizeof(deplacementAFaire));
@@ -52,7 +53,7 @@ void taskGestionControleur1_initialise(void)
                             TASKGESTIONCONTROLEUR1_STACK_SIZE, 
                             NULL, 
                             TASKGESTIONCONTROLEUR1_PRIORITY, 
-                            &xHandleTaskTxUart, 
+                            &xHandleTaskGestionControleur1, 
                             TASKGESTIONCONTROLEUR1_CORE
     );
 }

@@ -3,7 +3,7 @@
 // 2023-04-23, David Normandeau, creation
 
 //INCLUSIONS
-#include "main.h"
+#include "define.h"
 #include "piloteMoteurGauche.h"
 #include "moteurGauche.h"
 

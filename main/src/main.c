@@ -1,4 +1,4 @@
-#include "main.h"
+#include "define.h"
 #include "piloteDetectionPiece.h"
 #include "piloteElectroaimant.h"
 #include "piloteLimitSwitchX.h"
@@ -17,7 +17,7 @@ void main_initialise();
 //Definitions de variables publiques:
 QueueHandle_t queueDeplacementPiece;
 QueueHandle_t queueGestionControleur1;
-SemaphoreHandle_t semaphoreCalibration = NULL;
+SemaphoreHandle_t semaphoreCalibration;
 
 //Definitions de variables privees:
 //pas de variables privees
@@ -25,8 +25,6 @@ SemaphoreHandle_t semaphoreCalibration = NULL;
 //Definitions de fonctions privees:
 void app_main(void)
 {
-    unsigned char echiquier[64];
-
     main_initialise();
 
     while(1)

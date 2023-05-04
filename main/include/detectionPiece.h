@@ -8,11 +8,11 @@
 
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
-//(copiez et adaptez ce qui suit dans "main.h")
+//(copiez et adaptez ce qui suit dans "define.h")
 
 
 //Dependances logicielles
-//(copiez et adaptez ce qui suit dans "main.h")
+//(copiez et adaptez ce qui suit dans "define.h")
 // pas de dépendances logicielles
 
 //INFORMATION PUBLIQUE:

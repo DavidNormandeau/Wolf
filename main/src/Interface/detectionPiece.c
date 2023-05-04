@@ -3,7 +3,7 @@
 // 2023-03-30, David Normandeau, creation
 
 //INCLUSIONS
-#include "main.h"
+#include "define.h"
 #include "piloteDetectionPiece.h"
 #include "detectionPiece.h"
 

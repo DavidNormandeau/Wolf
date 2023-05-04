@@ -149,7 +149,11 @@
 
 #define TASKDEPLACEMENTPIECE_STACK_SIZE 2048
 #define TASKDEPLACEMENTPIECE_PRIORITY   2
-#define TASKDEPLACEMENTPIECE_CORE       0 
+#define TASKDEPLACEMENTPIECE_CORE       0
+
+#define TASKGESTIONCONTROLEUR1_STACK_SIZE 2048
+#define TASKGESTIONCONTROLEUR1_PRIORITY   2
+#define TASKGESTIONCONTROLEUR1_CORE       0 
 
 
 
@@ -168,14 +172,14 @@ typedef enum
 
 typedef struct
 {
-   unsigned char r0  : 1,
-   unsigned char r1  : 1,
-   unsigned char r2  : 1,
-   unsigned char r3  : 1,
-   unsigned char r4  : 1,
-   unsigned char r5  : 1,
-   unsigned char r6  : 1,
-   unsigned char r7  : 1,
+   unsigned char r0  : 1;
+   unsigned char r1  : 1;
+   unsigned char r2  : 1;
+   unsigned char r3  : 1;
+   unsigned char r4  : 1;
+   unsigned char r5  : 1;
+   unsigned char r6  : 1;
+   unsigned char r7  : 1;
 
 } rank_bit_t;
 
