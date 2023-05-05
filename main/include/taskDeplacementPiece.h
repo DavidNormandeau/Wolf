@@ -36,6 +36,6 @@ void taskDeplacementPiece(void *pvParameters);
 void taskDeplacementPiece_initialise(void);
 
 //Variables publiques:
-TaskHandle_t xHandleTaskDeplacementPiece;
+extern TaskHandle_t xHandleTaskDeplacementPiece;
 
 #endif

@@ -143,19 +143,21 @@
 #define TASKCALIBRATION_DEPLACEMENT_y  100
 
 //Tasks
-#define TASKTXUART_STACK_SIZE 2048
-#define TASKTXUART_PRIORITY   2
-#define TASKTXUART_CORE       1   
+#define TASKTXUART_STACK_SIZE             (2*1024)
+#define TASKTXUART_PRIORITY               2
+#define TASKTXUART_CORE                   1   
 
-#define TASKDEPLACEMENTPIECE_STACK_SIZE 2048
-#define TASKDEPLACEMENTPIECE_PRIORITY   2
-#define TASKDEPLACEMENTPIECE_CORE       0
+#define TASKDEPLACEMENTPIECE_STACK_SIZE   (2*1024)
+#define TASKDEPLACEMENTPIECE_PRIORITY     2
+#define TASKDEPLACEMENTPIECE_CORE         0
 
-#define TASKGESTIONCONTROLEUR1_STACK_SIZE 2048
+#define TASKGESTIONCONTROLEUR1_STACK_SIZE (2*1024)
 #define TASKGESTIONCONTROLEUR1_PRIORITY   2
 #define TASKGESTIONCONTROLEUR1_CORE       0 
 
-
+#define TASKCALIBRATION_STACK_SIZE        (2*1024)
+#define TASKCALIBRATION_PRIORITY          2
+#define TASKCALIBRATION_CORE              0
 
 
 typedef enum
@@ -209,7 +211,6 @@ typedef enum
 //pas de fonctions publiques
 
 //Variables publiques:
-
 extern QueueHandle_t queueDeplacementPiece;
 extern QueueHandle_t queueGestionControleur1;
 // extern QueueHandle_t queueTxUart;

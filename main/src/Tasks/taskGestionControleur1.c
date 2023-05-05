@@ -27,15 +27,43 @@ TaskHandle_t xHandleTaskGestionControleur1;
 void taskGestionControleur1(void *pvParameters)
 {
     info_deplacement_t deplacementAFaire;
+    unsigned char message[5] = {0};
+
     queueDeplacementPiece = xQueueCreate(5, sizeof(deplacementAFaire));
+    semaphoreCalibration = xSemaphoreCreateBinary();
+    
+
     
     if(queueDeplacementPiece == 0)
     {
-        ESP_LOGE(TAG, "QueueDeplacementPiece n'a pas été créé!");
+        ESP_LOGE(TAG, "queueDeplacementPiece n'a pas été créé!");
+    }
+
+    if(semaphoreCalibration == NULL)
+    {
+        ESP_LOGE(TAG, "semaphoreCalibration n'a pas été créé!");
     }
     
     while(1)
     {
+        switch(message[0])
+        {
+            // case 'M':
+            //     break;
+
+            case 'C':
+                xSemaphoreGive(semaphoreCalibration);
+                ESP_LOGI(TAG, "Calibration en cours...");
+                //envoyer que calibration termininée
+                break;
+
+            // case 'B':
+            //     break;
+            
+            case 'c':
+                break;
+
+        }
       
     }
 

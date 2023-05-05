@@ -17,7 +17,12 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-
+typedef enum
+{
+    MODE_HvsH = 0,
+    MODE_HvsPC,
+    MODE_HvsIA
+} mode_jeu_t;
 
 
 //Fonctions publiques:
@@ -25,6 +30,6 @@ void taskGestionControleur1(void *pvParameters);
 void taskGestionControleur1_initialise(void);
 
 //Variables publiques:
-TaskHandle_t xHandletaskGestionControleur1;
+extern TaskHandle_t xHandletaskGestionControleur1;
 
 #endif
