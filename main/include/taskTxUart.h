@@ -27,6 +27,7 @@ void taskTxUart();
 void taskTxUart_initialise(void);
 
 //Variables publiques:
+extern QueueHandle_t queueTxUart;
 extern TaskHandle_t xHandleTaskTxUart;
 
 #endif

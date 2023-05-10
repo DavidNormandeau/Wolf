@@ -30,6 +30,7 @@ void taskGestionControleur1(void *pvParameters);
 void taskGestionControleur1_initialise(void);
 
 //Variables publiques:
+extern QueueHandle_t queueGestionControleur1;
 extern TaskHandle_t xHandletaskGestionControleur1;
 
 #endif

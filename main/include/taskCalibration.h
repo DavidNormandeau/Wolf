@@ -17,7 +17,15 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-//pas de definitions publiques
+#define TASKCALIBRATION_PAS_D_ERREUR    0
+#define TASKCALIBRATION_ERREUR          1
+
+// typedef struct
+// {
+//     unsigned char requete;
+//     unsigned char statut;
+// } TASKCALIBRATION;
+
 
 //Fonctions publiques:
 void taskCalibration(void *pvParameters);
@@ -25,5 +33,8 @@ void taskCalibration_initialise(void);
 
 //Variables publiques:
 extern TaskHandle_t xHandleTaskCalibration;
+//extern TASKCALIBRATION calibration;
+extern SemaphoreHandle_t semaphoreDebutCalibration;
+extern SemaphoreHandle_t semaphoreFinCalibration;
 
 #endif

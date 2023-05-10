@@ -8,7 +8,7 @@
 #include "piloteUart2.h"
 
 //Definitions privees
-//static const char* TAG = "PILOTE UART2";
+static const char* TAG = "PILOTE UART2";
 #define RX_TIMEOUT (100/ portTICK_PERIOD_MS)
 #define TX_TIMEOUT (100/ portTICK_PERIOD_MS)
 
@@ -30,9 +30,22 @@ int piloteUart2_transmetMessage(char* buffer, size_t nombreDOctetATransmettre)
     return (uart_write_bytes(UART_NUM_2, buffer, nombreDOctetATransmettre));
 }
 
-int piloteUart2_recoitMessage(char* buffer, uint32_t length)
+int piloteUart2_recoitMessage(char* buffer, uint32_t length, TickType_t delaiEnTick)
 {
-    return uart_read_bytes(UART_NUM_2, buffer, length, RX_TIMEOUT);
+    return uart_read_bytes(UART_NUM_2, buffer, length, delaiEnTick);
+}
+
+unsigned char piloteUart2_octetDisponible()
+{
+    int longueur = 0;
+
+    uart_get_buffered_data_len(UART_NUM_2, (size_t*)&longueur);
+    if(longueur == 0)
+    {
+        return PILOTEUART2_PAS_DISPONIBLE;
+    }
+    ESP_LOGI(TAG, "Octet disponible");
+    return PILOTEUART2_DISPONIBLE;
 }
 
 esp_err_t piloteUart2_attendFinTransmission()

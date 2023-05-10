@@ -10,7 +10,7 @@
 #include "taskCalibration.h"
 
 //Definitions privees
-//static const char* TAG = "TASK CALIBRATION";
+static const char* TAG = "TASK CALIBRATION";
 #define CALIBRATION_NBRE_DE_STEP_ENTRE_LECTURE_LIMIT_SWITCH 4
 #define CALIBRATION_VITESSE_LENTE                           3   //en ms
 #define CALIBRATION_VITESSE_RAPIDE                          1   //en ms
@@ -28,14 +28,21 @@
 
 //Definitions de variables publiques:
 TaskHandle_t xHandleTaskCalibration = NULL;
+// TASKCALIBRATION calibration;
+SemaphoreHandle_t semaphoreDebutCalibration;
+QueueHandle_t queueStatutCalibration;
 
 
 //Definitions de fonctions publiques:
 void taskCalibration(void * pvParameters)
 {
+    // calibration.requete = REQUETE_TRAITEE;
+    // calibration.statut = TASKCALIBRATION_PAS_D_ERREUR;
+    unsigned char taskCalibration_statut = TASKCALIBRATION_PAS_D_ERREUR;
+
     while(1)
     {
-        xSemaphoreTake(semaphoreCalibration, portMAX_DELAY);
+        xSemaphoreTake(semaphoreDebutCalibration, portMAX_DELAY);
 
         //Déplacement lent vers limit switch X
         while(piloteLimitSwitchX_litLEntree() == 1) //à modifier
@@ -63,9 +70,13 @@ void taskCalibration(void * pvParameters)
                                         CALIBRATION_VITESSE_RAPIDE);
 
         //dire que la calibration est terminée
-        //à compléter
+        if(xQueueSend(queueStatutCalibration, &taskCalibration_statut, (TickType_t)0) != pdPASS) //Devrait toujours être vide
+        {
+            ESP_LOGE(TAG, "ERREUR: Queue est plein, lorsqu'il ne devrait jamais l'être");
+        }
+        //calibration.requete = REQUETE_TRAITEE;
     }
-    xSemaphoreGive(semaphoreCalibration);
+   
 
     vTaskDelete(xHandleTaskCalibration);
 }
@@ -76,6 +87,9 @@ void taskCalibration(void * pvParameters)
 
 void taskCalibration_initialise(void)
 {
+    semaphoreDebutCalibration = xSemaphoreCreateBinary();
+    queueStatutCalibration = xQueueCreate(1, sizeof(unsigned char));
+
     xTaskCreatePinnedToCore(taskCalibration, 
                             "TaskCalibration", 
                             TASKCALIBRATION_STACK_SIZE, 
@@ -84,6 +98,9 @@ void taskCalibration_initialise(void)
                             &xHandleTaskCalibration, 
                             TASKCALIBRATION_CORE
     );
+
+
+
 
 
 }

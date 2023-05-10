@@ -29,6 +29,7 @@ void deplaceRoqueLongNoir();
 
 //Definitions de variables privees:
 coordonneeEchiquier_t positionChariot;
+info_deplacement_t deplacementAFaire;
 
 //Definitions de fonctions privees:
 void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiquier_t positionFinale, unsigned char vitesse, unsigned char aimante)
@@ -304,7 +305,10 @@ void deplaceRoqueLongNoir()
 }
 
 //Definitions de variables publiques:
+QueueHandle_t queueDeplacementPiece;
 TaskHandle_t xHandleTaskDeplacementPiece = NULL;
+DEPLACEMENTPIECE deplacementPiece;
+
 
 
 //Definitions de fonctions publiques:
@@ -313,11 +317,12 @@ void taskDeplacementPiece(void * pvParameters)
     coordonneeEchiquier_t positionChariot = {CHARIOT_POSITION_INITIALE_X, CHARIOT_POSITION_INITIALE_Y};
     coordonneeEchiquier_t positionTemp;
     coordonneeEchiquier_t positionExterieur;
-    info_deplacement_t deplacementAFaire;
     unsigned char deplacementX, deplacementY;
 
-
+    deplacementPiece.requete = REQUETE_TRAITEE;
+    deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
     electroaimant_eteint();
+
     while(1)
     {
         //attend déplacement (QUEUE) (info: type, posDepart, posArrivee)
@@ -403,6 +408,11 @@ void taskDeplacementPiece(void * pvParameters)
             {
                 deplaceRoqueLongNoir();
             }
+
+            //à faire: vérifier position piece
+
+            deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
+            deplacementPiece.requete = REQUETE_TRAITEE;
         }     
     }
 
@@ -415,6 +425,8 @@ void taskDeplacementPiece(void * pvParameters)
 
 void taskDeplacementPiece_initialise(void)
 {
+    queueDeplacementPiece = xQueueCreate(5, sizeof(deplacementAFaire));
+
     xTaskCreatePinnedToCore(taskDeplacementPiece, 
                             "TaskDeplacementPiece", 
                             TASKDEPLACEMENTPIECE_STACK_SIZE, 
@@ -423,8 +435,4 @@ void taskDeplacementPiece_initialise(void)
                             &xHandleTaskDeplacementPiece, 
                             TASKDEPLACEMENTPIECE_CORE
     );
-
-
-    positionChariot.x = CHARIOT_POSITION_INITIALE_X;
-    positionChariot.y = CHARIOT_POSITION_INITIALE_Y;
 }

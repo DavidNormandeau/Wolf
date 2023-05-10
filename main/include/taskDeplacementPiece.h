@@ -30,12 +30,22 @@ typedef struct
     coordonneeEchiquier_t positionArrivee;
 } info_deplacement_t;
 
+typedef struct
+{
+    unsigned char statut;
+    unsigned char requete;
+} DEPLACEMENTPIECE;
+
+#define DEPLACEMENTPIECE_PAS_D_ERREUR   0
+#define DEPLACEMENTPIECE_ERREUR         1
 
 //Fonctions publiques:
 void taskDeplacementPiece(void *pvParameters);
 void taskDeplacementPiece_initialise(void);
 
 //Variables publiques:
+extern QueueHandle_t queueDeplacementPiece;
 extern TaskHandle_t xHandleTaskDeplacementPiece;
+extern DEPLACEMENTPIECE deplacementPiece;
 
 #endif

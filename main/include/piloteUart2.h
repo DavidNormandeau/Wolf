@@ -21,11 +21,13 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-//pas de definitions publiques
+#define PILOTEUART2_PAS_DISPONIBLE  0
+#define PILOTEUART2_DISPONIBLE      1
 
 //Fonctions publiques:
 int piloteUart2_transmetMessage(char*, size_t);
-int piloteUart2_recoitMessage(char*, uint32_t);
+int piloteUart2_recoitMessage(char*, uint32_t, TickType_t);
+unsigned char piloteUart2_octetDisponible();
 esp_err_t piloteUart2_termine();
 esp_err_t piloteUart2_initialise(void);
 

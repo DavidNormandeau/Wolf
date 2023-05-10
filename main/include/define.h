@@ -20,6 +20,9 @@
 #include "freertos/queue.h"
 #include "freertos/semphr.h"
 #include "driver/gpio.h"
+#include "sdkconfig.h"
+
+
 
 //Dependances materielles:
 #define PILOTEDETECTIONPIECE_S0_PIN             GPIO_NUM_32
@@ -128,8 +131,10 @@
 // #define PROCESSUSCLIGNOTANT_TEMPS_ALLUME_EN_MS  500.0
 // #define PROCESSUSCLIGNOTANT_PERIODE_EN_MS 1000.0
 // #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_TRANSMISSIONS_EN_HZ 500.0
-// #define SERVICEPROTOCOLE637_NOMBRE_DE_DONNEES_MAXIMUM  16
-// #define SERVICEPROTOCOLE637_DEBUT_DE_TRAME  '$'
+#define TASKTXUART_NOMBRE_DE_DONNEES_MAXIMUM    8
+#define TASKRXUART_NOMBRE_DE_DONNEES_MAXIMUM    TASKTXUART_NOMBRE_DE_DONNEES_MAXIMUM
+#define TASKRXUART_DEBUT_DE_TRAME  '$'
+#define TASKTXUART_DEBUT_DE_TRAME  TASKRXUART_DEBUT_DE_TRAME 
 // #define SERVICEPROTOCOLE637_INSERTION 0x00
 // #define SERVICEPROTOCOLE637_TEMPS_D_ATTENTE_MAXIMAL_EN_MS 4
 // #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_LECTURES_EN_HZ 2000.0
@@ -144,8 +149,12 @@
 
 //Tasks
 #define TASKTXUART_STACK_SIZE             (2*1024)
-#define TASKTXUART_PRIORITY               2
-#define TASKTXUART_CORE                   1   
+#define TASKTXUART_PRIORITY               0
+#define TASKTXUART_CORE                   0
+
+#define TASKRXUART_STACK_SIZE             (2*1024)
+#define TASKRXUART_PRIORITY               0
+#define TASKRXUART_CORE                   0  
 
 #define TASKDEPLACEMENTPIECE_STACK_SIZE   (2*1024)
 #define TASKDEPLACEMENTPIECE_PRIORITY     2
@@ -202,8 +211,8 @@ typedef enum
 //Definitions publiques:
 // #define INFORMATION_DISPONIBLE  1
 // #define INFORMATION_TRAITEE  0
-// #define REQUETE_ACTIVE  1
-// #define REQUETE_TRAITEE 0
+#define REQUETE_ACTIVE  1
+#define REQUETE_TRAITEE 0
 // #define MODULE_EN_FONCTION 1
 // #define MODULE_PAS_EN_FONCTION 0
 
@@ -211,10 +220,6 @@ typedef enum
 //pas de fonctions publiques
 
 //Variables publiques:
-extern QueueHandle_t queueDeplacementPiece;
-extern QueueHandle_t queueGestionControleur1;
-// extern QueueHandle_t queueTxUart;
-// extern QueueHandle_t queueRxUart;
-extern SemaphoreHandle_t semaphoreCalibration;
+//pas de variable publiques
 #endif
 
