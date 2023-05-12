@@ -10,17 +10,37 @@
 
 //Definitions privees
 static const char* TAG = "TASK TX UART2";
-#define TASKTXUART_NOMBRE_DE_OCTETS_MAX 8
 
 //Declarations de fonctions privees:
-//pas de fonction privees
+void taskTxUart_prepareLaTransmission(char* donneesATransmettre, unsigned char nombreATransmettre);
 
 //Definitions de variables privees:
-char txMessage[TASKTXUART_NOMBRE_DE_OCTETS_MAX];
-TASKRXUART test;
+char taskTxUart_octetsATransmettre[TASKRXUART_NOMBRE_DE_DONNEES_MAXIMUM];
+unsigned char taskTxUart_nombreOctetsATransmettre;
+TASKTXUART taskTxUart_infoRecu;
+
 
 //Definitions de fonctions privees:
-//pas de fonctions privees
+void taskTxUart_prepareLaTransmission(char* donneesATransmettre, unsigned char nombreATransmettre)
+{
+  int i = 0;
+  unsigned char checksum = 0;
+
+  taskTxUart_octetsATransmettre[0] = TASKTXUART_DEBUT_DE_TRAME;
+  taskTxUart_octetsATransmettre[1] = nombreATransmettre;
+  for(i = 2; i < nombreATransmettre; i++)
+  {
+    taskTxUart_octetsATransmettre[i] = donneesATransmettre[i-2];
+    checksum += taskTxUart_octetsATransmettre[i];
+    if(taskTxUart_octetsATransmettre[i] == TASKTXUART_DEBUT_DE_TRAME)
+    {
+      i++;
+      taskTxUart_octetsATransmettre[i] = TASKTXUART_INSERTION;
+    } 
+  }
+  taskTxUart_octetsATransmettre[i+2] = checksum;
+  taskTxUart_nombreOctetsATransmettre = i + 3;
+}
 
 //Definitions de variables publiques:
 TaskHandle_t xHandleTaskTxUart = NULL;
@@ -33,13 +53,12 @@ void taskTxUart()
 
     while(1)
     {
-        //if(xQueueReceive(queueTxUart, txMessage, portMAX_DELAY) != pdTRUE)
-        if(xQueueReceive(queueRxUart, &test, portMAX_DELAY) != pdTRUE)
+        if(xQueueReceive(queueTxUart, &taskTxUart_infoRecu, portMAX_DELAY) != pdTRUE)
         {
           ESP_LOGE(TAG, "Erreur: Reception QueueTxUart failed");
         }
-
-        txBytes = piloteUart2_transmetMessage(test.octetsRecus, test.nombreARecevoir);
+        taskTxUart_prepareLaTransmission(taskTxUart_infoRecu.octetsATransmettre, taskTxUart_infoRecu.nombreOctetsATransmettre);
+        txBytes = piloteUart2_transmetMessage(taskTxUart_octetsATransmettre, taskTxUart_nombreOctetsATransmettre);
         ESP_LOGI(TAG, "Wrote %d bytes", txBytes);
     }
 
@@ -52,8 +71,8 @@ void taskTxUart()
 
 void taskTxUart_initialise(void)
 {
-  queueTxUart = xQueueCreate(5, sizeof(txMessage));
-  
+  queueTxUart = xQueueCreate(5, sizeof(TASKTXUART)); 
+
   xTaskCreatePinnedToCore(  taskTxUart, 
                             "Task Tx Uart", 
                             TASKTXUART_STACK_SIZE, 

@@ -6,6 +6,8 @@
 #include "define.h"
 #include "taskDeplacementPiece.h"
 #include "taskCalibration.h"
+#include "taskRxUart.h"
+#include "taskTxUart.h"
 #include "taskGestionControleur1.h"
 
 //Definitions privees
@@ -18,31 +20,65 @@ void taskGestionControleur1_attendFinDeplacementPiece();
 void taskGestionControleur1_attendCommandeTestPosition();
 void taskGestionControleur1_attendCommandeTestPositionNouvellePartie();
 void taskGestionControleur1_etatEnErreur();
+void taskGestionControleur1_prepareMessageATransmettre(char* message, unsigned char longeur);
 
 //Definitions de variables privees:
 void (*taskGestionControleur1_execute)(void);
+TASKRXUART taskGestionControleur1_messageRecu;
+TASKTXUART taskGestionControleur1_messageATransmettre;
+
 
 
 //Definitions de fonctions privees:
-// void taskGestionControleur1_attendFinCalibration()
-// {
-//     xSemaphoreGive(semaphoreDebutCalibration);
-//     ESP_LOGI(TAG, "Calibration en cours...");
-//     if(calibration.requete == REQUETE_ACTIVE)
-//     {
-//         return;
-//     }
-//     if(calibration.statut == TASKCALIBRATION_ERREUR)
-//     {
-//         taskGestionControleur1_execute = taskGestionControleur1_etatEnErreur;
-//     }
+void taskGestionControleur1_attendFinCalibration()
+{
+    ESP_LOGI(TAG, "Calibration en cours...");
+    xSemaphoreTake(semaphoreFinCalibration, portMAX_DELAY);  //delay à déterminer par le temps, envoyer une erreur si prend trop de temps
+    {
+        ESP_LOGE(TAG, "Erreur: taskGestionControleur1_attendFinCalibration - Reception queueGestionControleur failed");
+    }
 
-//     taskGestionControleur1_execute = taskGestionControleur1_attendCommande;
-// }
+    // if(calibration.statut == TASKCALIBRATION_ERREUR)
+    // {
+    //     taskGestionControleur1_execute = taskGestionControleur1_etatEnErreur;
+    // }
+
+    
+    //envoyer que calibration termininée
+    taskGestionControleur1_prepareMessageATransmettre("C1", 2);
+    xQueueSend(queueTxUart, &taskGestionControleur1_messageATransmettre, 50/portTICK_PERIOD_MS);
+
+    taskGestionControleur1_execute = taskGestionControleur1_attendCommande;
+}
 
 void taskGestionControleur1_attendCommande()
 {
-    
+    if(xQueueReceive(queueRxUart, &taskGestionControleur1_messageRecu, portMAX_DELAY) != pdTRUE)
+    {
+        ESP_LOGE(TAG, "Erreur: Reception QueueRxUart failed");
+    }
+
+    switch(taskGestionControleur1_messageRecu.octetsRecus[0])
+    {
+        //Suspendre des tasks lorsqu'en mode HvsH
+        // case 'M':
+        //     break;
+
+        case 'C':
+            xSemaphoreGive(semaphoreDebutCalibration);
+            ESP_LOGI(TAG, "Calibration en cours...");
+            taskGestionControleur1_execute = taskGestionControleur1_attendFinCalibration;
+            break;
+
+        case 'N':
+            taskGestionControleur1_execute = taskGestionControleur1_attendCommandeTestPositionNouvellePartie;
+            break;
+        
+        case 'c':
+            taskGestionControleur1_execute = taskGestionControleur1_attendFinDeplacementPiece;
+            break;
+
+    }
 }
 
 void taskGestionControleur1_attendFinDeplacementPiece()
@@ -64,17 +100,34 @@ void taskGestionControleur1_attendFinDeplacementPiece()
 
 void taskGestionControleur1_attendCommandeTestPosition()
 {
-
+    
+    
+    taskGestionControleur1_execute = taskGestionControleur1_attendCommande;
 }
 
 void taskGestionControleur1_attendCommandeTestPositionNouvellePartie()
 {
 
+
+    taskGestionControleur1_execute = taskGestionControleur1_attendCommande;
 }
 
 void taskGestionControleur1_etatEnErreur()
 {
+    ESP_LOGE(TAG, "ETAT EN ERREUR");
 
+    //Pour l'instant bloc à l'infini
+}
+
+void taskGestionControleur1_prepareMessageATransmettre(char* message, unsigned char longueur)
+{
+    unsigned char i;
+
+    taskGestionControleur1_messageATransmettre.nombreOctetsATransmettre = longueur;
+    for(i = 0; i < longueur; i++)
+    {
+        taskGestionControleur1_messageATransmettre.octetsATransmettre[i] = message[i];
+    }
 }
 
 
@@ -94,8 +147,8 @@ TaskHandle_t xHandleTaskGestionControleur1;
 //Definitions de fonctions publiques:
 void taskGestionControleur1(void *pvParameters)
 {
-    info_deplacement_t deplacementAFaire;
-    unsigned char message[5] = {0};
+    // info_deplacement_t deplacementAFaire;
+    // unsigned char message[5] = {0};
     TickType_t lastWakeTime;
    
     
@@ -111,32 +164,18 @@ void taskGestionControleur1(void *pvParameters)
         ESP_LOGE(TAG, "semaphoreCalibration n'a pas été créé!");
     }
 
-    taskGestionControleur1_execute = taskGestionControleur1_attendFinCalibration;
-
-    lastWakeTime = xTaskGetTickCount();
     
+    
+    taskGestionControleur1_execute = taskGestionControleur1_attendFinCalibration;
+    
+    //Fait une calibration dès la mise en marche 
+    xSemaphoreGive(semaphoreDebutCalibration);
+    lastWakeTime = xTaskGetTickCount();    
     while(1)
     {
         
-        
-        switch(message[0])
-        {
-            // case 'M':
-            //     break;
+        taskGestionControleur1_execute();
 
-            case 'C':
-                xSemaphoreGive(semaphoreDebutCalibration);
-                ESP_LOGI(TAG, "Calibration en cours...");
-                //envoyer que calibration termininée
-                break;
-
-            // case 'B':
-            //     break;
-            
-            case 'c':
-                break;
-
-        }
 
         xTaskDelayUntil(&lastWakeTime, 50/portTICK_PERIOD_MS);
       

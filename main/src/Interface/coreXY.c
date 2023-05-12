@@ -31,43 +31,43 @@
 void coreXY_deplaceEnNombreDeSteps(int nbreDeSteps, direction_t direction, int vitesse)
 {
     //direction
-    if(direction == A1_TO_H8 || direction == _1_TO_8 || direction == H_TO_A)
-    {
-        piloteMoteurGauche_metDirA(TOURNE_A_DROITE);
-    }
-    else
+    if(direction == A8_TO_H1 || direction == _8_TO_1 || direction == A_TO_H)
     {
         piloteMoteurGauche_metDirA(TOURNE_A_GAUCHE);
     }
-    if(direction == A1_TO_H8 || direction == _1_TO_8 || direction == A_TO_H)
+    else
     {
-        piloteMoteurDroit_metDirA(TOURNE_A_DROITE);
+        piloteMoteurGauche_metDirA(TOURNE_A_DROITE);
+    }
+    if(direction == H8_TO_A1 || direction == _8_TO_1 || direction == H_TO_A)
+    {
+        piloteMoteurDroit_metDirA(TOURNE_A_GAUCHE);
     }
     else
     {
-        piloteMoteurDroit_metDirA(TOURNE_A_GAUCHE);
+        piloteMoteurDroit_metDirA(TOURNE_A_DROITE);
     }
 
     //steps
     //Peut-être un flag pour l'arreter en cours de mouvement?????????????????
     for(int i = 0; i < nbreDeSteps; i++)
     {
-        if(direction == H1_TO_A8 || direction == A8_TO_H1)
-        {
-            piloteMoteurGauche_metStepA(1);  
-        }
-        else
-        {
-            piloteMoteurGauche_metStepA(0); 
-        } 
-
         if(direction == A1_TO_H8 || direction == H8_TO_A1)
         {
-            piloteMoteurDroit_metStepA(1);  
+            piloteMoteurGauche_metStepA(0);  
         }
         else
         {
-            piloteMoteurDroit_metStepA(0); 
+            piloteMoteurGauche_metStepA(1); 
+        } 
+        if(direction == H1_TO_A8 || direction == A8_TO_H1)
+        
+        {
+            piloteMoteurDroit_metStepA(0);  
+        }
+        else
+        {
+            piloteMoteurDroit_metStepA(1); 
         }
         
         vTaskDelay(pdMS_TO_TICKS(vitesse));

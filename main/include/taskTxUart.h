@@ -20,7 +20,12 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-//pas de definitions publiques
+typedef struct
+{
+    char octetsATransmettre[TASKRXUART_NOMBRE_DE_DONNEES_MAXIMUM];
+    unsigned char nombreOctetsATransmettre;
+} TASKTXUART;
+
 
 //Fonctions publiques:
 void taskTxUart();
