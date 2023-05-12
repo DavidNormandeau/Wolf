@@ -77,6 +77,10 @@ void app_main(void)
             
         }
         printf("\r\n\r\n\r\n");
+        // printf("Case A1: %d \r\n", detectionPiece_litLaCase(A1));
+        // printf("Case H1: %d \r\n", detectionPiece_litLaCase(H1));
+        // printf("Case A2: %d \r\n", detectionPiece_litLaCase(A2));
+        // printf("Case A3: %d \r\n", detectionPiece_litLaCase(A3));
 
         vTaskDelay(1000/portTICK_PERIOD_MS);
         

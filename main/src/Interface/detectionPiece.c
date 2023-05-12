@@ -40,6 +40,11 @@ unsigned char detectionPiece_litLaCase(case_t caseALire)
     piloteDetectionPiece_metS2A((caseALire & 0x04) >> 2);
     piloteDetectionPiece_metS3A((caseALire & 0x08) >> 3);
 
+    piloteDetectionPiece_metEN1_2A(DISABLE_MUX);
+    piloteDetectionPiece_metEN3_4A(DISABLE_MUX);
+    piloteDetectionPiece_metEN5_6A(DISABLE_MUX);
+    piloteDetectionPiece_metEN7_8A(DISABLE_MUX);
+
     if(caseALire < 16)
     {
         piloteDetectionPiece_metEN1_2A(ENABLE_MUX);
