@@ -18,7 +18,8 @@
     "files.associations": {
         "main.h": "c",
         "sdkconfig.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "detectionpiece.h": "c"
     },
     "idf.flashType": "UART"
 }

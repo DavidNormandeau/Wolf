@@ -19,8 +19,8 @@
 //Definitions publiques:
 typedef struct 
 {
-    float x;
-    float y;
+    unsigned char file;
+    unsigned char rank;
 } coordonneeEchiquier_t;
 
 typedef struct 
@@ -30,11 +30,7 @@ typedef struct
     coordonneeEchiquier_t positionArrivee;
 } info_deplacement_t;
 
-typedef struct
-{
-    unsigned char statut;
-    unsigned char requete;
-} DEPLACEMENTPIECE;
+
 
 #define DEPLACEMENTPIECE_PAS_D_ERREUR   0
 #define DEPLACEMENTPIECE_ERREUR         1
@@ -46,6 +42,7 @@ void taskDeplacementPiece_initialise(void);
 //Variables publiques:
 extern QueueHandle_t queueDeplacementPiece;
 extern TaskHandle_t xHandleTaskDeplacementPiece;
-extern DEPLACEMENTPIECE deplacementPiece;
+extern SemaphoreHandle_t semaphoreFinDeplacementPiece;
+// extern DEPLACEMENTPIECE deplacementPiece;
 
 #endif

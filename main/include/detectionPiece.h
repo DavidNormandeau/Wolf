@@ -22,6 +22,8 @@
 //Fonctions publiques:
 unsigned char detectionPiece_litLaCase(case_t caseALire);
 void detectionPiece_litLEchiquier(unsigned char* echiquier);
+void detectionPiece_litLEchiquier8x8(unsigned char echiquier[8][8]);
+void detectionPiece_litLEchiquierInt64(uint64_t* echiquier);
 void detectionPiece_initialise(void);
 
 //Variables publiques:

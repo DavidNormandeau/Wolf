@@ -28,7 +28,8 @@ void taskTxUart_prepareLaTransmission(char* donneesATransmettre, unsigned char n
 
   taskTxUart_octetsATransmettre[0] = TASKTXUART_DEBUT_DE_TRAME;
   taskTxUart_octetsATransmettre[1] = nombreATransmettre;
-  for(i = 2; i < nombreATransmettre; i++)
+  ESP_LOGW(TAG, "%d donneesATransmettre: %s", nombreATransmettre, donneesATransmettre);
+  for(i = 2; i < 2 + nombreATransmettre; i++)
   {
     taskTxUart_octetsATransmettre[i] = donneesATransmettre[i-2];
     checksum += taskTxUart_octetsATransmettre[i];
@@ -38,8 +39,8 @@ void taskTxUart_prepareLaTransmission(char* donneesATransmettre, unsigned char n
       taskTxUart_octetsATransmettre[i] = TASKTXUART_INSERTION;
     } 
   }
-  taskTxUart_octetsATransmettre[i+2] = checksum;
-  taskTxUart_nombreOctetsATransmettre = i + 3;
+  taskTxUart_octetsATransmettre[i] = checksum;
+  taskTxUart_nombreOctetsATransmettre = i + 1;
 }
 
 //Definitions de variables publiques:
@@ -53,13 +54,14 @@ void taskTxUart()
 
     while(1)
     {
+        // if(xQueueReceive(queueRxUart, &taskTxUart_infoRecu, portMAX_DELAY) != pdTRUE)     //POUR TEST SEULEMENT
         if(xQueueReceive(queueTxUart, &taskTxUart_infoRecu, portMAX_DELAY) != pdTRUE)
         {
           ESP_LOGE(TAG, "Erreur: Reception QueueTxUart failed");
         }
         taskTxUart_prepareLaTransmission(taskTxUart_infoRecu.octetsATransmettre, taskTxUart_infoRecu.nombreOctetsATransmettre);
         txBytes = piloteUart2_transmetMessage(taskTxUart_octetsATransmettre, taskTxUart_nombreOctetsATransmettre);
-        ESP_LOGI(TAG, "Wrote %d bytes", txBytes);
+        ESP_LOGI(TAG, "Wrote %d bytes: %s", txBytes, taskTxUart_octetsATransmettre);
     }
 
     vTaskDelete(xHandleTaskTxUart);

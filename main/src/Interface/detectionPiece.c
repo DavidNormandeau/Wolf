@@ -62,16 +62,48 @@ unsigned char detectionPiece_litLaCase(case_t caseALire)
         piloteDetectionPiece_metEN7_8A(ENABLE_MUX);
     }
 
+    
+    vTaskDelay(1); //à modifier pour meilleur performance
+
     return piloteDetectionPiece_litCOM();
 }
 
-void detectionPiece_litLEchiquier(unsigned char* echiquier)
+// void detectionPiece_litLEchiquier(unsigned char* echiquier)
+// {
+//     unsigned char i;
+//     for(i = A1; i <= H8; i++)
+//     {
+//         echiquier[i] = detectionPiece_litLaCase(i);
+//     }
+// }
+
+void detectionPiece_litLEchiquier8x8(unsigned char echiquier[8][8])
+{
+    signed char file, rank, n = 0; //n est pour compenser que le file est à l'envers
+
+    ESP_LOGI(TAG, "START");
+    for(rank = 0; rank < 8; rank++)
+    {
+        for(file = 7; file >= 0; file--)
+        {
+            echiquier[file][rank] = detectionPiece_litLaCase(n);
+            n++;
+        }
+        
+    }
+    ESP_LOGI(TAG, "END");
+}
+
+void detectionPiece_litLEchiquierInt64(uint64_t* echiquier)
 {
     unsigned char i;
+    *echiquier = 0;
     for(i = A1; i <= H8; i++)
     {
-        echiquier[i] = detectionPiece_litLaCase(i);
+        *echiquier = *echiquier << 1;
+        *echiquier = *echiquier | detectionPiece_litLaCase(i);
     }
+    ESP_LOGI(TAG, "0x%08llX", *echiquier);
 }
 
 void detectionPiece_initialise(void)

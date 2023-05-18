@@ -10,7 +10,7 @@
 #include "taskDeplacementPiece.h"
 
 //Definitions privees
-//static const char* TAG = "TASK DEPLACEMENT PIECE";
+static const char* TAG = "TASK DEPLACEMENT PIECE";
 // #define CAPTURE_A_FAIRE         0
 // #define DEPLACEMENT_VERS        1
 #define VITESSE_LENTE           3   //en ms
@@ -42,65 +42,67 @@ void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiqu
     }
 
 
-    deplacementXenSteps = abs((int)((positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE));
-    deplacementYenSteps = abs((int)((positionFinale.y - positionInitiale.y) * NBRE_DE_STEP_DANS_UNE_CASE));
+    deplacementXenSteps = abs((int)((positionFinale.file - positionInitiale.file) * NBRE_DE_STEP_DANS_UNE_DEMI_CASE));
+    deplacementYenSteps = abs((int)((positionFinale.rank - positionInitiale.rank) * NBRE_DE_STEP_DANS_UNE_DEMI_CASE));
     
-    if(positionFinale.x > positionInitiale.x)
+    ESP_LOGI(TAG, "deplacementXenSteps: %d, deplacementYenSteps: %d", deplacementXenSteps, deplacementYenSteps);
+
+    if(positionFinale.file > positionInitiale.file)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, A_TO_H, vitesse);
     }
-    else if(positionFinale.x < positionInitiale.x)
+    else if(positionFinale.file < positionInitiale.file)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, H_TO_A, vitesse);
     }
 
-    if(positionFinale.y > positionInitiale.y)
+    if(positionFinale.rank > positionInitiale.rank)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _1_TO_8, VITESSE_RAPIDE);
     }
-    else if(positionFinale.y < positionInitiale.y)
+    else if(positionFinale.rank < positionInitiale.rank)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _8_TO_1, VITESSE_RAPIDE);
     }
 
     electroaimant_eteint();
 
-    positionChariot.x = positionFinale.x;
-    positionChariot.y = positionFinale.y;
+    positionChariot.file = positionFinale.file;
+    positionChariot.rank = positionFinale.rank;
 }
 
 void deplaceEnDiagonalALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiquier_t positionFinale, unsigned char vitesse, unsigned char aimante)
 {
-    unsigned int deplacementEnSteps = abs((int)((positionFinale.x - positionInitiale.x) * NBRE_DE_STEP_DANS_UNE_CASE * COEFFICIENT_DIAGONALE));
+    unsigned int deplacementEnSteps = abs((int)((positionFinale.file - positionInitiale.file) * NBRE_DE_STEP_DANS_UNE_DEMI_CASE * COEFFICIENT_DIAGONALE));
 
     if(aimante == ELECTROAIMANT_ACTIF)
     {
         electroaimant_active();
     }
 
-    if (positionInitiale.x > positionFinale.x && positionInitiale.y > positionFinale.y)
+    if (positionInitiale.file > positionFinale.file && positionInitiale.rank > positionFinale.rank)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementEnSteps, H8_TO_A1, vitesse );
     } 
-    else if (positionInitiale.x > positionFinale.x && positionInitiale.y < positionFinale.y) 
+    else if (positionInitiale.file > positionFinale.file && positionInitiale.rank < positionFinale.rank) 
     {
         coreXY_deplaceEnNombreDeSteps(deplacementEnSteps, H1_TO_A8, vitesse);
     }
         
-    else if (positionInitiale.x < positionFinale.x && positionInitiale.y > positionFinale.y)
+    else if (positionInitiale.file < positionFinale.file && positionInitiale.rank > positionFinale.rank)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementEnSteps, A8_TO_H1, vitesse);
     } 
         
-    else if (positionInitiale.x < positionFinale.x && positionInitiale.y < positionFinale.y)
+    else if (positionInitiale.file < positionFinale.file && positionInitiale.rank < positionFinale.rank)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementEnSteps, A1_TO_H8, vitesse);
     }        
 
     electroaimant_eteint();
 
-    positionChariot.x = positionFinale.x;
-    positionChariot.y = positionFinale.y;
+    positionChariot.file = positionFinale.file;
+    positionChariot.rank = positionFinale.rank;
 }
 
 void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiquier_t positionFinale)
@@ -108,19 +110,19 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
 
     unsigned int deplacementX, deplacementY, deplacementXenSteps, deplacementYenSteps;
 
-    deplacementX = abs(positionFinale.x - positionInitiale.x);
-    deplacementY = abs(positionFinale.y - positionInitiale.y);
-    deplacementXenSteps = deplacementX * NBRE_DE_STEP_DANS_UNE_CASE;
-    deplacementYenSteps = deplacementY * NBRE_DE_STEP_DANS_UNE_CASE;
+    deplacementX = abs(positionFinale.file - positionInitiale.file);
+    deplacementY = abs(positionFinale.rank - positionInitiale.rank);
+    deplacementXenSteps = deplacementX * NBRE_DE_STEP_DANS_UNE_DEMI_CASE;
+    deplacementYenSteps = deplacementY * NBRE_DE_STEP_DANS_UNE_DEMI_CASE;
 
     electroaimant_active();
 
     if (deplacementY == 2) 
     {
-        if (positionInitiale.x < positionFinale.x) 
+        if (positionInitiale.file < positionFinale.file) 
         {
             coreXY_deplaceEnNombreDeSteps(deplacementXenSteps * 0.5, A_TO_H, VITESSE_LENTE);
-            if (positionInitiale.y < positionFinale.y)
+            if (positionInitiale.rank < positionFinale.rank)
             {
                 coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _1_TO_8, VITESSE_LENTE); 
             }                
@@ -130,10 +132,10 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
             }                
             coreXY_deplaceEnNombreDeSteps(deplacementXenSteps * 0.5, A_TO_H, VITESSE_LENTE);
         }
-        else if (positionInitiale.x > positionFinale.x) 
+        else if (positionInitiale.file > positionFinale.file) 
         {
             coreXY_deplaceEnNombreDeSteps(deplacementXenSteps * 0.5, H_TO_A, VITESSE_LENTE);
-            if (positionInitiale.y < positionFinale.y)
+            if (positionInitiale.rank < positionFinale.rank)
             {
                 coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _1_TO_8, VITESSE_LENTE); 
             }                
@@ -146,10 +148,10 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
     }
     else if (deplacementX == 2) 
     {
-        if (positionInitiale.y < positionFinale.y) 
+        if (positionInitiale.rank < positionFinale.rank) 
         {
             coreXY_deplaceEnNombreDeSteps(deplacementYenSteps * 0.5, _1_TO_8, VITESSE_LENTE);
-            if (positionInitiale.x < positionFinale.x) 
+            if (positionInitiale.file < positionFinale.file) 
             {
                 coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, A_TO_H, VITESSE_LENTE);
             }
@@ -159,10 +161,10 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
             } 
             coreXY_deplaceEnNombreDeSteps(deplacementYenSteps * 0.5, _1_TO_8, VITESSE_LENTE);
         }
-        else if (positionInitiale.y > positionFinale.y) 
+        else if (positionInitiale.rank > positionFinale.rank) 
         {
             coreXY_deplaceEnNombreDeSteps(deplacementYenSteps * 0.5, _8_TO_1, VITESSE_LENTE);
-            if (positionInitiale.x < positionFinale.x) 
+            if (positionInitiale.file < positionFinale.file) 
             {
                 coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, A_TO_H, VITESSE_LENTE);
             }
@@ -176,8 +178,8 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
 
     electroaimant_eteint();
 
-    positionChariot.x = positionFinale.x;
-    positionChariot.y = positionFinale.y;
+    positionChariot.file = positionFinale.file;
+    positionChariot.rank = positionFinale.rank;
 }
 
 void deplaceRoqueCourtBlanc()
@@ -207,8 +209,8 @@ void deplaceRoqueCourtBlanc()
 
     electroaimant_eteint();
 
-    positionChariot.x = 7;
-    positionChariot.y = 1;
+    positionChariot.file = 13;
+    positionChariot.rank = 1;
 }
 
 void deplaceRoqueLongBlanc()
@@ -238,8 +240,8 @@ void deplaceRoqueLongBlanc()
 
     electroaimant_eteint();
 
-    positionChariot.x = 3;
-    positionChariot.y = 1;
+    positionChariot.file = 3;
+    positionChariot.rank = 1;
 }
 
 void deplaceRoqueCourtNoir()
@@ -269,8 +271,8 @@ void deplaceRoqueCourtNoir()
 
     electroaimant_eteint();
 
-    positionChariot.x = 7;
-    positionChariot.y = 8;
+    positionChariot.file = 7;
+    positionChariot.rank = 8;
 }
 
 void deplaceRoqueLongNoir()
@@ -300,27 +302,28 @@ void deplaceRoqueLongNoir()
 
     electroaimant_eteint();
 
-    positionChariot.x = 3;
-    positionChariot.y = 8;
+    positionChariot.file = 3;
+    positionChariot.rank = 8;
 }
 
 //Definitions de variables publiques:
 QueueHandle_t queueDeplacementPiece;
+SemaphoreHandle_t semaphoreFinDeplacementPiece;
 TaskHandle_t xHandleTaskDeplacementPiece = NULL;
-DEPLACEMENTPIECE deplacementPiece;
+//DEPLACEMENTPIECE deplacementPiece;
 
 
 
 //Definitions de fonctions publiques:
 void taskDeplacementPiece(void * pvParameters)
 {
-    coordonneeEchiquier_t positionChariot = {CHARIOT_POSITION_INITIALE_X, CHARIOT_POSITION_INITIALE_Y};
-    coordonneeEchiquier_t positionTemp;
+    coordonneeEchiquier_t positionChariot = {CHARIOT_POSITION_INITIALE_FILE, CHARIOT_POSITION_INITIALE_RANK};
+    // coordonneeEchiquier_t positionTemp;
     coordonneeEchiquier_t positionExterieur;
     unsigned char deplacementX, deplacementY;
 
-    deplacementPiece.requete = REQUETE_TRAITEE;
-    deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
+    // deplacementPiece.requete = REQUETE_TRAITEE;
+    // deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
     electroaimant_eteint();
 
     while(1)
@@ -336,18 +339,20 @@ void taskDeplacementPiece(void * pvParameters)
                                     VITESSE_RAPIDE, 
                                     ELECTROAIMANT_ETEINT);
 
+                vTaskDelay(1000/portTICK_PERIOD_MS);
+
                     
                 //Sort la piece du jeu
-                if(deplacementAFaire.positionArrivee.y == 8)
+                if(deplacementAFaire.positionArrivee.rank == 8)
                 {
-                    positionExterieur.y = deplacementAFaire.positionArrivee.y - 0.5;
+                    positionExterieur.rank = deplacementAFaire.positionArrivee.rank - 1;
                 }
                 else
                 {
-                    positionExterieur.y = deplacementAFaire.positionArrivee.y + 0.5; 
+                    positionExterieur.rank = deplacementAFaire.positionArrivee.rank + 1; 
                 }
-                positionExterieur.x = 0;
-                deplaceALaPosition( positionTemp, 
+                positionExterieur.file = 0;
+                deplaceALaPosition( positionChariot, 
                                     positionExterieur , 
                                     VITESSE_LENTE, 
                                     ELECTROAIMANT_ACTIF); 
@@ -358,17 +363,24 @@ void taskDeplacementPiece(void * pvParameters)
                 //à compléter
             }
 
+            vTaskDelay(1000/portTICK_PERIOD_MS);
+
             //Déplace chariot vers position de départ
+            ESP_LOGI(TAG, "Déplace chariot vers position de départ");
             deplaceALaPosition( positionChariot, 
-                                deplacementAFaire.positionDepart , 
+                                deplacementAFaire.positionDepart, 
                                 VITESSE_RAPIDE, 
                                 ELECTROAIMANT_ETEINT);
+
+            
+            vTaskDelay(1000/portTICK_PERIOD_MS);
 
             //Déplace piece vers position arrivée
             if(deplacementAFaire.type == NORMAL || deplacementAFaire.type == EN_PASSANT)
             {
-                deplacementX = abs(deplacementAFaire.positionArrivee.x - deplacementAFaire.positionDepart.x);
-                deplacementY = abs(deplacementAFaire.positionArrivee.y - deplacementAFaire.positionDepart.y);
+                ESP_LOGI(TAG, "Déplace piece vers position arrivée");
+                deplacementX = abs(deplacementAFaire.positionArrivee.file - deplacementAFaire.positionDepart.file);
+                deplacementY = abs(deplacementAFaire.positionArrivee.rank - deplacementAFaire.positionDepart.rank);
                 
                 if(deplacementX == deplacementY)
                 {
@@ -392,7 +404,7 @@ void taskDeplacementPiece(void * pvParameters)
                 }
                 
             }
-            else if(deplacementAFaire.type == ROQUE_COURT_BLAMC)
+            else if(deplacementAFaire.type == ROQUE_COURT_BLANC)
             {
                 deplaceRoqueCourtBlanc();
             }
@@ -409,10 +421,7 @@ void taskDeplacementPiece(void * pvParameters)
                 deplaceRoqueLongNoir();
             }
 
-            //à faire: vérifier position piece
-
-            deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
-            deplacementPiece.requete = REQUETE_TRAITEE;
+            xSemaphoreGive(semaphoreFinDeplacementPiece);
         }     
     }
 
@@ -426,6 +435,7 @@ void taskDeplacementPiece(void * pvParameters)
 void taskDeplacementPiece_initialise(void)
 {
     queueDeplacementPiece = xQueueCreate(5, sizeof(deplacementAFaire));
+    semaphoreFinDeplacementPiece = xSemaphoreCreateBinary();
 
     xTaskCreatePinnedToCore(taskDeplacementPiece, 
                             "TaskDeplacementPiece", 
