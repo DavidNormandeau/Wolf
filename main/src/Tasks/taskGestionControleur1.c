@@ -11,6 +11,7 @@
 #include "taskTxUart.h"
 #include "taskGestionControleur1.h"
 
+
 //Definitions privees
 static const char* TAG = "TASK GESTION CONTROLEUR1";
 #define POSITION_DE_DEPART_INT64 0xFF0000FF
@@ -32,11 +33,15 @@ void taskGestionControleur1_prepareDeplacementAFaire();
 unsigned char taskGestionControleur1_testBonDeplacementDeLaPiece();
 void taskGestionControleur1_enregistreLaPositionDeLEchiquier();
 
+//Fonction pour TEST
+void test_affichePositionPieceSurMonitor();
+
 //Definitions de variables privees:
 void (*taskGestionControleur1_execute)(void);
 TASKRXUART taskGestionControleur1_messageRecu;
 TASKTXUART taskGestionControleur1_messageATransmettre;
-info_deplacement_t taskGestionControleur1_deplacementAFaire;
+// info_deplacement_t taskGestionControleur1_deplacementAFaire;
+info_deplacement_t taskGestionControleur1_deplacementRecu;
 position_piece_t positionEchiquierPourTransmission;
 
 
@@ -88,7 +93,7 @@ void taskGestionControleur1_attendCommande()
         
         case 'c':
             taskGestionControleur1_prepareDeplacementAFaire();
-            if(xQueueSend(queueDeplacementPiece, &taskGestionControleur1_deplacementAFaire, 50 / portTICK_PERIOD_MS) != pdTRUE)
+            if(xQueueSend(queueDeplacementPiece, &taskGestionControleur1_deplacementRecu, 50 / portTICK_PERIOD_MS) != pdTRUE)
             {
                 ESP_LOGE(TAG, "Erreur: taskGestionControleur1_attendCommande - queueDeplacementPiece est plein.");
             }
@@ -109,22 +114,23 @@ void taskGestionControleur1_attendFinDeplacementPiece()
         taskGestionControleur1_execute = taskGestionControleur1_etatEnErreur;
         return;
     }
-    //*************EN REMETTRE LORSQUE JAI MET AIMANT**********************************
     
-    // taskGestionControleur1_enregistreLaPositionDeLEchiquier();       
-    // detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier); 
-    // if(taskGestionControleur1_testBonDeplacementDeLaPiece() == POSITION_DES_PIECES_EST_EN_ERREUR)
-    // {
-    //     //DÉPLACEMENT EN ÉCHEC
-    //     ESP_LOGI(TAG, "Déplacement échec");
-    //     taskGestionControleur1_prepareMessageATransmettre("E1", 2);
-    //     xQueueSend(queueTxUart, &taskGestionControleur1_messageATransmettre, 50/portTICK_PERIOD_MS);
-    //     taskGestionControleur1_prepareLaTransmissionDeLaPositionDesPieces();
-    //     xQueueSend(queueTxUart, &taskGestionControleur1_messageATransmettre, 50/portTICK_PERIOD_MS);
+
+    taskGestionControleur1_enregistreLaPositionDeLEchiquier();       
+    detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier);
+    test_affichePositionPieceSurMonitor(); 
+    if(taskGestionControleur1_testBonDeplacementDeLaPiece() == POSITION_DES_PIECES_EST_EN_ERREUR)
+    {
+        //DÉPLACEMENT EN ÉCHEC
+        ESP_LOGI(TAG, "Déplacement échec");
+        taskGestionControleur1_prepareMessageATransmettre("E1", 2);
+        xQueueSend(queueTxUart, &taskGestionControleur1_messageATransmettre, 50/portTICK_PERIOD_MS);
+        taskGestionControleur1_prepareLaTransmissionDeLaPositionDesPieces();
+        xQueueSend(queueTxUart, &taskGestionControleur1_messageATransmettre, 50/portTICK_PERIOD_MS);
  
-    //    taskGestionControleur1_execute = taskGestionControleur1_attendCommandeTestPosition;
-    //    return; 
-    // }
+       taskGestionControleur1_execute = taskGestionControleur1_attendCommandeTestPosition;
+       return; 
+    }
 
     //DÉPLACEMENT RÉUSSI
     ESP_LOGI(TAG, "Déplacement Réussi");
@@ -151,8 +157,8 @@ void taskGestionControleur1_attendCommandeTestPosition()
     if(taskGestionControleur1_messageRecu.octetsRecus[1] == BOUTON_A_ETE_APPUYE || taskGestionControleur1_messageRecu.octetsRecus[2] == BOUTON_A_ETE_APPUYE)
     {
         taskGestionControleur1_enregistreLaPositionDeLEchiquier();       
-        detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier); 
-        //à vérifier
+        detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier);
+        test_affichePositionPieceSurMonitor();  
         if(taskGestionControleur1_testBonDeplacementDeLaPiece() == POSITION_DES_PIECES_EST_EN_ERREUR)
         {
            
@@ -285,63 +291,72 @@ void taskGestionControleur1_prepareLaTransmissionDeLaPositionDesPieces()
     for(i = 1; i < 9; i++)
     {
         taskGestionControleur1_messageATransmettre.octetsATransmettre[i] = positionEchiquierPourTransmission.cTab[i-1];
+        ESP_LOGW(TAG, "%d: 0x%02X", i, taskGestionControleur1_messageATransmettre.octetsATransmettre[i]);
     }
 }
 
 void taskGestionControleur1_prepareDeplacementAFaire()
-{
-    taskGestionControleur1_deplacementAFaire.type                  = taskGestionControleur1_messageRecu.octetsRecus[1];
-    taskGestionControleur1_deplacementAFaire.positionDepart.file   = 2 * taskGestionControleur1_messageRecu.octetsRecus[2] + 1;
-    taskGestionControleur1_deplacementAFaire.positionDepart.rank   = 2 * taskGestionControleur1_messageRecu.octetsRecus[3] + 1;
-    taskGestionControleur1_deplacementAFaire.positionArrivee.file  = 2 * taskGestionControleur1_messageRecu.octetsRecus[4] + 1;
-    taskGestionControleur1_deplacementAFaire.positionArrivee.rank  = 2 * taskGestionControleur1_messageRecu.octetsRecus[5] + 1;
+{    
+    taskGestionControleur1_deplacementRecu.type                  = taskGestionControleur1_messageRecu.octetsRecus[1];
+    taskGestionControleur1_deplacementRecu.positionDepart.file   = taskGestionControleur1_messageRecu.octetsRecus[2];
+    taskGestionControleur1_deplacementRecu.positionDepart.rank   = taskGestionControleur1_messageRecu.octetsRecus[3];
+    taskGestionControleur1_deplacementRecu.positionArrivee.file  = taskGestionControleur1_messageRecu.octetsRecus[4];
+    taskGestionControleur1_deplacementRecu.positionArrivee.rank  = taskGestionControleur1_messageRecu.octetsRecus[5];
+
+    // taskGestionControleur1_deplacementAFaire.type                  = taskGestionControleur1_messageRecu.octetsRecus[1];
+    // taskGestionControleur1_deplacementAFaire.positionDepart.file   = 2 * taskGestionControleur1_messageRecu.octetsRecus[2] + 1;
+    // taskGestionControleur1_deplacementAFaire.positionDepart.rank   = 2 * taskGestionControleur1_messageRecu.octetsRecus[3] + 1;
+    // taskGestionControleur1_deplacementAFaire.positionArrivee.file  = 2 * taskGestionControleur1_messageRecu.octetsRecus[4] + 1;
+    // taskGestionControleur1_deplacementAFaire.positionArrivee.rank  = 2 * taskGestionControleur1_messageRecu.octetsRecus[5] + 1;
     ESP_LOGI(TAG, "DeplacementAFaire: type: %d, depart.file: %d depart.rank: %d, arrivee.file: %d, arrivee.rank: %d", 
-        taskGestionControleur1_deplacementAFaire.type,
-        taskGestionControleur1_deplacementAFaire.positionDepart.file,
-        taskGestionControleur1_deplacementAFaire.positionDepart.rank,
-        taskGestionControleur1_deplacementAFaire.positionArrivee.file,
-        taskGestionControleur1_deplacementAFaire.positionArrivee.rank );
+        taskGestionControleur1_deplacementRecu.type,
+        taskGestionControleur1_deplacementRecu.positionDepart.file,
+        taskGestionControleur1_deplacementRecu.positionDepart.rank,
+        taskGestionControleur1_deplacementRecu.positionArrivee.file,
+        taskGestionControleur1_deplacementRecu.positionArrivee.rank );
 }
 
 unsigned char taskGestionControleur1_testBonDeplacementDeLaPiece()
 {
     //CAPTURE OU NORMAL
-    if(taskGestionControleur1_deplacementAFaire.type == CAPTURE_A_FAIRE || taskGestionControleur1_deplacementAFaire.type == NORMAL)
+    if(taskGestionControleur1_deplacementRecu.type == CAPTURE_A_FAIRE || taskGestionControleur1_deplacementRecu.type == NORMAL)
     {
-        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementAFaire.positionDepart.file][taskGestionControleur1_deplacementAFaire.positionDepart.rank] 
+        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementRecu.positionDepart.file][taskGestionControleur1_deplacementRecu.positionDepart.rank] 
             == DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE)
         {
+            ESP_LOGE(TAG, "Case départ pas vide");
             return POSITION_DES_PIECES_EST_EN_ERREUR;
         }
 
-        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementAFaire.positionArrivee.file][taskGestionControleur1_deplacementAFaire.positionArrivee.rank] 
+        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementRecu.positionArrivee.file][taskGestionControleur1_deplacementRecu.positionArrivee.rank] 
             == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
+            ESP_LOGE(TAG, "Case Arrivée pas de piece");
             return POSITION_DES_PIECES_EST_EN_ERREUR;    
         }
     }
     //EN PASSANT
-    else if(taskGestionControleur1_deplacementAFaire.type == EN_PASSANT)
+    else if(taskGestionControleur1_deplacementRecu.type == EN_PASSANT)
     {
-        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementAFaire.positionDepart.file][taskGestionControleur1_deplacementAFaire.positionDepart.rank]  //Pour noir seulement 
+        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementRecu.positionDepart.file][taskGestionControleur1_deplacementRecu.positionDepart.rank]  //Pour noir seulement 
             == DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE)
         {
             return POSITION_DES_PIECES_EST_EN_ERREUR;
         }
 
-        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementAFaire.positionArrivee.file][taskGestionControleur1_deplacementAFaire.positionArrivee.rank] 
+        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementRecu.positionArrivee.file][taskGestionControleur1_deplacementRecu.positionArrivee.rank] 
             == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
             return POSITION_DES_PIECES_EST_EN_ERREUR;    
         }
 
-        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementAFaire.positionArrivee.file][taskGestionControleur1_deplacementAFaire.positionArrivee.rank - 1] 
+        if(tabPieceDetecteeSurEchiquier[taskGestionControleur1_deplacementRecu.positionArrivee.file][taskGestionControleur1_deplacementRecu.positionArrivee.rank - 1] 
             == DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE)
         {
             return POSITION_DES_PIECES_EST_EN_ERREUR;    
         }
     }
-    else if(taskGestionControleur1_deplacementAFaire.type == ROQUE_COURT_BLANC)
+    else if(taskGestionControleur1_deplacementRecu.type == ROQUE_COURT_BLANC)
     {
         if(tabPieceDetecteeSurEchiquier[FILE_F][RANK_1] == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
@@ -362,7 +377,7 @@ unsigned char taskGestionControleur1_testBonDeplacementDeLaPiece()
 
         //return POSITION_DES_PIECES_EST_BONNE;
     }
-    else if(taskGestionControleur1_deplacementAFaire.type == ROQUE_COURT_NOIR)
+    else if(taskGestionControleur1_deplacementRecu.type == ROQUE_COURT_NOIR)
     {
         if(tabPieceDetecteeSurEchiquier[FILE_F][RANK_8] == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
@@ -383,7 +398,7 @@ unsigned char taskGestionControleur1_testBonDeplacementDeLaPiece()
         
         //return POSITION_DES_PIECES_EST_BONNE;        
     }
-    else if(taskGestionControleur1_deplacementAFaire.type == ROQUE_LONG_BLANC)
+    else if(taskGestionControleur1_deplacementRecu.type == ROQUE_LONG_BLANC)
     {
         if(tabPieceDetecteeSurEchiquier[FILE_C][RANK_1] == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
@@ -404,7 +419,7 @@ unsigned char taskGestionControleur1_testBonDeplacementDeLaPiece()
         
         //return POSITION_DES_PIECES_EST_BONNE;        
     }
-    else if(taskGestionControleur1_deplacementAFaire.type == ROQUE_LONG_NOIR)
+    else if(taskGestionControleur1_deplacementRecu.type == ROQUE_LONG_NOIR)
     {
         if(tabPieceDetecteeSurEchiquier[FILE_C][RANK_8] == DETECTIONPIECE_VALEUR_SI_CASE_VIDE)
         {
@@ -443,7 +458,24 @@ void taskGestionControleur1_enregistreLaPositionDeLEchiquier()
 }
 
 
+void test_affichePositionPieceSurMonitor()
+{
+            //TEST detection 8x8
+        int rank, file;
+        detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier);
 
+        printf("---------------------------------\r\n");
+        for(rank = RANK_1; rank <= RANK_8; rank++)
+        {
+            for(file = FILE_A; file <= FILE_H; file++)
+            {
+                printf("| %d ", tabPieceDetecteeSurEchiquier[file][rank]); 
+            }
+            printf("|\r\n---------------------------------\r\n");  
+           
+        }
+        printf("\r\n\r\n\r\n");
+}
 
 
 

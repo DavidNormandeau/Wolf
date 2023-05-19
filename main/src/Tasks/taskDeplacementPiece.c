@@ -24,10 +24,11 @@ void deplaceRoqueCourtBlanc();
 void deplaceRoqueLongBlanc();
 void deplaceRoqueCourtNoir();
 void deplaceRoqueLongNoir();
+void taskDeplacementPiece_prepareDeplacementAFaire();
 
 //Definitions de variables privees:
 coordonneeEchiquier_t positionChariot;
-info_deplacement_t deplacementAFaire;
+info_deplacement_t taskDeplacementPiece_deplacementAFaire;
 
 //Definitions de fonctions privees:
 void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiquier_t positionFinale, unsigned char vitesse, unsigned char aimante)
@@ -304,6 +305,20 @@ void deplaceRoqueLongNoir()
     positionChariot.rank = 15;
 }
 
+void taskDeplacementPiece_prepareDeplacementAFaire()
+{    
+    taskDeplacementPiece_deplacementAFaire.positionDepart.file   = 2 * taskDeplacementPiece_deplacementAFaire.positionDepart.file + 1;
+    taskDeplacementPiece_deplacementAFaire.positionDepart.rank   = 2 * taskDeplacementPiece_deplacementAFaire.positionDepart.rank + 1;
+    taskDeplacementPiece_deplacementAFaire.positionArrivee.file  = 2 * taskDeplacementPiece_deplacementAFaire.positionArrivee.file + 1;
+    taskDeplacementPiece_deplacementAFaire.positionArrivee.rank  = 2 * taskDeplacementPiece_deplacementAFaire.positionArrivee.rank + 1;
+    ESP_LOGI(TAG, "DeplacementAFaire: type: %d, depart.file: %d depart.rank: %d, arrivee.file: %d, arrivee.rank: %d", 
+        taskDeplacementPiece_deplacementAFaire.type,
+        taskDeplacementPiece_deplacementAFaire.positionDepart.file,
+        taskDeplacementPiece_deplacementAFaire.positionDepart.rank,
+        taskDeplacementPiece_deplacementAFaire.positionArrivee.file,
+        taskDeplacementPiece_deplacementAFaire.positionArrivee.rank );
+}
+
 //Definitions de variables publiques:
 QueueHandle_t queueDeplacementPiece;
 SemaphoreHandle_t semaphoreFinDeplacementPiece;
@@ -326,13 +341,14 @@ void taskDeplacementPiece(void * pvParameters)
     while(1)
     {
         //attend déplacement (QUEUE) (info: type, posDepart, posArrivee)
-        if(xQueueReceive(queueDeplacementPiece, &deplacementAFaire, portMAX_DELAY))
+        if(xQueueReceive(queueDeplacementPiece, &taskDeplacementPiece_deplacementAFaire, portMAX_DELAY))
         {
-            if(deplacementAFaire.type == CAPTURE_A_FAIRE)
+            taskDeplacementPiece_prepareDeplacementAFaire();
+            if(taskDeplacementPiece_deplacementAFaire.type == CAPTURE_A_FAIRE)
             {
                 //Déplace chariot vers piece à capturer
                 deplaceALaPosition( positionChariot, 
-                                    deplacementAFaire.positionArrivee, 
+                                    taskDeplacementPiece_deplacementAFaire.positionArrivee, 
                                     VITESSE_RAPIDE, 
                                     ELECTROAIMANT_ETEINT);
 
@@ -340,13 +356,13 @@ void taskDeplacementPiece(void * pvParameters)
 
                     
                 //Sort la piece du jeu
-                if(deplacementAFaire.positionArrivee.rank == 15)
+                if(taskDeplacementPiece_deplacementAFaire.positionArrivee.rank == 15)
                 {
-                    positionExterieur.rank = deplacementAFaire.positionArrivee.rank - 1;
+                    positionExterieur.rank = taskDeplacementPiece_deplacementAFaire.positionArrivee.rank - 1;
                 }
                 else
                 {
-                    positionExterieur.rank = deplacementAFaire.positionArrivee.rank + 1; 
+                    positionExterieur.rank = taskDeplacementPiece_deplacementAFaire.positionArrivee.rank + 1; 
                 }
                 positionExterieur.file = 0;
                 deplaceALaPosition( positionChariot, 
@@ -355,7 +371,7 @@ void taskDeplacementPiece(void * pvParameters)
                                     ELECTROAIMANT_ACTIF); 
             }
 
-            if(deplacementAFaire.type == EN_PASSANT)
+            if(taskDeplacementPiece_deplacementAFaire.type == EN_PASSANT)
             {
                 //à compléter
             }
@@ -364,7 +380,7 @@ void taskDeplacementPiece(void * pvParameters)
             //Déplace chariot vers position de départ
             ESP_LOGI(TAG, "Déplace chariot vers position de départ");
             deplaceALaPosition( positionChariot, 
-                                deplacementAFaire.positionDepart, 
+                                taskDeplacementPiece_deplacementAFaire.positionDepart, 
                                 VITESSE_RAPIDE, 
                                 ELECTROAIMANT_ETEINT);
 
@@ -372,47 +388,47 @@ void taskDeplacementPiece(void * pvParameters)
             vTaskDelay(1000/portTICK_PERIOD_MS);
 
             //Déplace piece vers position arrivée
-            if(deplacementAFaire.type == NORMAL || deplacementAFaire.type == EN_PASSANT ||  deplacementAFaire.type == CAPTURE_A_FAIRE)
+            if(taskDeplacementPiece_deplacementAFaire.type == NORMAL || taskDeplacementPiece_deplacementAFaire.type == EN_PASSANT ||  taskDeplacementPiece_deplacementAFaire.type == CAPTURE_A_FAIRE)
             {
                 ESP_LOGI(TAG, "Déplace piece vers position arrivée");
-                deplacementX = abs(deplacementAFaire.positionArrivee.file - deplacementAFaire.positionDepart.file);
-                deplacementY = abs(deplacementAFaire.positionArrivee.rank - deplacementAFaire.positionDepart.rank);
+                deplacementX = abs(taskDeplacementPiece_deplacementAFaire.positionArrivee.file - taskDeplacementPiece_deplacementAFaire.positionDepart.file);
+                deplacementY = abs(taskDeplacementPiece_deplacementAFaire.positionArrivee.rank - taskDeplacementPiece_deplacementAFaire.positionDepart.rank);
                 
                 if(deplacementX == deplacementY)
                 {
-                    deplaceEnDiagonalALaPosition(   deplacementAFaire.positionDepart, 
-                                                    deplacementAFaire.positionArrivee, 
+                    deplaceEnDiagonalALaPosition(   taskDeplacementPiece_deplacementAFaire.positionDepart, 
+                                                    taskDeplacementPiece_deplacementAFaire.positionArrivee, 
                                                     VITESSE_LENTE, 
                                                     ELECTROAIMANT_ACTIF);
                 }
                 else if((deplacementX == 2 && deplacementY == 4) || 
                         (deplacementX == 4 && deplacementY == 2))
                 {
-                    deplaceCavalierALaPosition( deplacementAFaire.positionDepart, 
-                                                deplacementAFaire.positionArrivee);
+                    deplaceCavalierALaPosition( taskDeplacementPiece_deplacementAFaire.positionDepart, 
+                                                taskDeplacementPiece_deplacementAFaire.positionArrivee);
                 }
                 else
                 {
-                    deplaceALaPosition( deplacementAFaire.positionDepart, 
-                                    deplacementAFaire.positionArrivee, 
+                    deplaceALaPosition( taskDeplacementPiece_deplacementAFaire.positionDepart, 
+                                    taskDeplacementPiece_deplacementAFaire.positionArrivee, 
                                     VITESSE_LENTE, 
                                     ELECTROAIMANT_ACTIF);
                 }
                 
             }
-            else if(deplacementAFaire.type == ROQUE_COURT_BLANC)
+            else if(taskDeplacementPiece_deplacementAFaire.type == ROQUE_COURT_BLANC)
             {
                 deplaceRoqueCourtBlanc();
             }
-            else if(deplacementAFaire.type == ROQUE_LONG_BLANC)
+            else if(taskDeplacementPiece_deplacementAFaire.type == ROQUE_LONG_BLANC)
             {
                 deplaceRoqueLongBlanc();
             }
-            else if(deplacementAFaire.type == ROQUE_COURT_NOIR)
+            else if(taskDeplacementPiece_deplacementAFaire.type == ROQUE_COURT_NOIR)
             {
                 deplaceRoqueCourtNoir();
             }
-            else if(deplacementAFaire.type == ROQUE_LONG_NOIR)
+            else if(taskDeplacementPiece_deplacementAFaire.type == ROQUE_LONG_NOIR)
             {
                 deplaceRoqueLongNoir();
             }
@@ -430,7 +446,7 @@ void taskDeplacementPiece(void * pvParameters)
 
 void taskDeplacementPiece_initialise(void)
 {
-    queueDeplacementPiece = xQueueCreate(5, sizeof(deplacementAFaire));
+    queueDeplacementPiece = xQueueCreate(5, sizeof(taskDeplacementPiece_deplacementAFaire));
     semaphoreFinDeplacementPiece = xSemaphoreCreateBinary();
 
     xTaskCreatePinnedToCore(taskDeplacementPiece, 
