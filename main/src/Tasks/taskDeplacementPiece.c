@@ -11,8 +11,6 @@
 
 //Definitions privees
 static const char* TAG = "TASK DEPLACEMENT PIECE";
-// #define CAPTURE_A_FAIRE         0
-// #define DEPLACEMENT_VERS        1
 #define VITESSE_LENTE           3   //en ms
 #define VITESSE_RAPIDE          1   //en ms
 #define ELECTROAIMANT_ETEINT    0
@@ -117,7 +115,7 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
 
     electroaimant_active();
 
-    if (deplacementY == 2) 
+    if (deplacementY == 4) 
     {
         if (positionInitiale.file < positionFinale.file) 
         {
@@ -146,7 +144,7 @@ void deplaceCavalierALaPosition(coordonneeEchiquier_t positionInitiale, coordonn
             coreXY_deplaceEnNombreDeSteps(deplacementXenSteps * 0.5, H_TO_A, VITESSE_LENTE);
         }
     }
-    else if (deplacementX == 2) 
+    else if (deplacementX == 4) 
     {
         if (positionInitiale.rank < positionFinale.rank) 
         {
@@ -240,7 +238,7 @@ void deplaceRoqueLongBlanc()
 
     electroaimant_eteint();
 
-    positionChariot.file = 3;
+    positionChariot.file = 5;
     positionChariot.rank = 1;
 }
 
@@ -271,8 +269,8 @@ void deplaceRoqueCourtNoir()
 
     electroaimant_eteint();
 
-    positionChariot.file = 7;
-    positionChariot.rank = 8;
+    positionChariot.file = 13;
+    positionChariot.rank = 15;
 }
 
 void deplaceRoqueLongNoir()
@@ -302,8 +300,8 @@ void deplaceRoqueLongNoir()
 
     electroaimant_eteint();
 
-    positionChariot.file = 3;
-    positionChariot.rank = 8;
+    positionChariot.file = 5;
+    positionChariot.rank = 15;
 }
 
 //Definitions de variables publiques:
@@ -317,13 +315,12 @@ TaskHandle_t xHandleTaskDeplacementPiece = NULL;
 //Definitions de fonctions publiques:
 void taskDeplacementPiece(void * pvParameters)
 {
-    coordonneeEchiquier_t positionChariot = {CHARIOT_POSITION_INITIALE_FILE, CHARIOT_POSITION_INITIALE_RANK};
-    // coordonneeEchiquier_t positionTemp;
     coordonneeEchiquier_t positionExterieur;
     unsigned char deplacementX, deplacementY;
 
-    // deplacementPiece.requete = REQUETE_TRAITEE;
-    // deplacementPiece.statut = DEPLACEMENTPIECE_PAS_D_ERREUR;
+    positionChariot.file = CHARIOT_POSITION_INITIALE_FILE;
+    positionChariot.rank = CHARIOT_POSITION_INITIALE_RANK;
+
     electroaimant_eteint();
 
     while(1)
@@ -343,7 +340,7 @@ void taskDeplacementPiece(void * pvParameters)
 
                     
                 //Sort la piece du jeu
-                if(deplacementAFaire.positionArrivee.rank == 8)
+                if(deplacementAFaire.positionArrivee.rank == 15)
                 {
                     positionExterieur.rank = deplacementAFaire.positionArrivee.rank - 1;
                 }
@@ -363,7 +360,6 @@ void taskDeplacementPiece(void * pvParameters)
                 //à compléter
             }
 
-            vTaskDelay(1000/portTICK_PERIOD_MS);
 
             //Déplace chariot vers position de départ
             ESP_LOGI(TAG, "Déplace chariot vers position de départ");
@@ -376,7 +372,7 @@ void taskDeplacementPiece(void * pvParameters)
             vTaskDelay(1000/portTICK_PERIOD_MS);
 
             //Déplace piece vers position arrivée
-            if(deplacementAFaire.type == NORMAL || deplacementAFaire.type == EN_PASSANT)
+            if(deplacementAFaire.type == NORMAL || deplacementAFaire.type == EN_PASSANT ||  deplacementAFaire.type == CAPTURE_A_FAIRE)
             {
                 ESP_LOGI(TAG, "Déplace piece vers position arrivée");
                 deplacementX = abs(deplacementAFaire.positionArrivee.file - deplacementAFaire.positionDepart.file);
@@ -389,8 +385,8 @@ void taskDeplacementPiece(void * pvParameters)
                                                     VITESSE_LENTE, 
                                                     ELECTROAIMANT_ACTIF);
                 }
-                else if((deplacementX == 1 && deplacementY == 2) || 
-                        (deplacementX == 2 && deplacementY == 1))
+                else if((deplacementX == 2 && deplacementY == 4) || 
+                        (deplacementX == 4 && deplacementY == 2))
                 {
                     deplaceCavalierALaPosition( deplacementAFaire.positionDepart, 
                                                 deplacementAFaire.positionArrivee);

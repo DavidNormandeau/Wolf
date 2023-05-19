@@ -21,5 +21,6 @@
         "gpio.h": "c",
         "detectionpiece.h": "c"
     },
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "idf.monitorBaudRate": "115200"
 }

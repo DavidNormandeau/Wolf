@@ -24,10 +24,10 @@ static const char* TAG = "MAIN";
 void main_initialise();
 
 //Definitions de variables publiques:
-unsigned char tabtabPieceDetecteeSurEchiquierPrecedent[8][8];
+unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
 unsigned char tabPieceDetecteeSurEchiquier[8][8];
-position_piece_t pieceDetecteeSurEchiquier;
-position_piece_t pieceDetecteeSurEchiquierPrecedent;
+// position_piece_t pieceDetecteeSurEchiquier;
+// position_piece_t pieceDetecteeSurEchiquierPrecedent;
 
 
 //Definitions de variables privees:
@@ -38,7 +38,7 @@ void app_main(void)
 {
     main_initialise();  
 
-    ESP_LOGI(TAG, "Hello world!");  
+    ESP_LOGI(TAG, "Task, Queue and Semaphore created!");  
 
     while(1)
     {
@@ -104,9 +104,9 @@ void app_main(void)
         // detectionPiece_litLEchiquier8x8(tabPieceDetecteeSurEchiquier);
 
         // printf("---------------------------------\r\n");
-        // for(rank = 0; rank < 8; rank++)
+        // for(rank = RANK_1; rank <= RANK_8; rank++)
         // {
-        //     for(file = 0; file < 8; file++)
+        //     for(file = FILE_A; file <= FILE_H; file++)
         //     {
         //         printf("| %d ", tabPieceDetecteeSurEchiquier[file][rank]); 
         //     }
@@ -180,10 +180,9 @@ void app_main(void)
         // printf("A7: %d  ", detectionPiece_litLaCase(A7));
         // printf("A8: %d  \n", detectionPiece_litLaCase(A8));
         
-        
-        
-        
-        vTaskDelay(1000/portTICK_PERIOD_MS);   
+                
+        vTaskDelay(1000/portTICK_PERIOD_MS);  
+
         
         
     }

@@ -10,12 +10,12 @@
 #include "taskCalibration.h"
 
 //Definitions privees
-//static const char* TAG = "TASK CALIBRATION";
+static const char* TAG = "TASK CALIBRATION";
 #define CALIBRATION_NBRE_DE_STEP_ENTRE_LECTURE_LIMIT_SWITCH 4
 #define CALIBRATION_VITESSE_LENTE                           3   //en ms
 #define CALIBRATION_VITESSE_RAPIDE                          1   //en ms
-#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_X   (6*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) //(13*NBRE_DE_STEP_DANS_UNE_DEMI_CASE)
-#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_Y    (6*NBRE_DE_STEP_DANS_UNE_DEMI_CASE)//(7*NBRE_DE_STEP_DANS_UNE_DEMI_CASE)
+#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_FILE (7*NBRE_DE_STEP_DANS_UNE_DEMI_CASE - 12) 
+#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_RANK (12*NBRE_DE_STEP_DANS_UNE_DEMI_CASE + 4)
 
 //Declarations de fonctions privees:
 //pas de fonctions privees
@@ -57,16 +57,17 @@ void taskCalibration(void * pvParameters)
         }
 
         //Déplacement rapide vers position départ
-        coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_X, 
+        coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_FILE, 
                                         H_TO_A, 
                                         CALIBRATION_VITESSE_RAPIDE);
 
-        coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_Y, 
+        coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_RANK, 
                                         _1_TO_8, 
                                         CALIBRATION_VITESSE_RAPIDE);
 
         //dire que la calibration est terminée
         xSemaphoreGive(semaphoreFinCalibration);
+        ESP_LOGI(TAG, "Calibration terminée");
     }
    
 

@@ -69,15 +69,12 @@
 #define TASKRXUART_INSERTION                    TASKTXUART_INSERTION
 // #define SERVICEPROTOCOLE637_TEMPS_D_ATTENTE_MAXIMAL_EN_MS 4
 // #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_LECTURES_EN_HZ 2000.0
-#define NBRE_DE_STEP_DANS_UNE_CASE  (2*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) //??????????????????????
+#define NBRE_DE_STEP_DANS_UNE_CASE  (2*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) 
 #define NBRE_DE_STEP_DANS_UNE_DEMI_CASE  94
-#define COEFFICIENT_DIAGONALE       1.44  //??????????????????????
+#define COEFFICIENT_DIAGONALE       1.97  //Meilleur: entre 1.95 et 2
 
 #define CHARIOT_POSITION_INITIALE_FILE    9     //E7
 #define CHARIOT_POSITION_INITIALE_RANK    13
-
-#define TASKCALIBRATION_DEPLACEMENT_X  100      //??????????????à déterminer??????????????en nombre de steps    
-#define TASKCALIBRATION_DEPLACEMENT_y  100
 
 //Tasks
 #define TASKTXUART_STACK_SIZE             (2*1024)
@@ -135,6 +132,7 @@ typedef union
 
 
 enum file { FILE_A = 0, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H};
+enum rank {RANK_1 = 0, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8};
 
 typedef enum
 {

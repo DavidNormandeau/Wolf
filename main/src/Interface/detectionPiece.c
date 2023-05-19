@@ -81,7 +81,6 @@ void detectionPiece_litLEchiquier8x8(unsigned char echiquier[8][8])
 {
     signed char file, rank, n = 0; //n est pour compenser que le file est à l'envers
 
-    ESP_LOGI(TAG, "START");
     for(rank = 0; rank < 8; rank++)
     {
         for(file = 7; file >= 0; file--)
@@ -91,7 +90,6 @@ void detectionPiece_litLEchiquier8x8(unsigned char echiquier[8][8])
         }
         
     }
-    ESP_LOGI(TAG, "END");
 }
 
 void detectionPiece_litLEchiquierInt64(uint64_t* echiquier)
