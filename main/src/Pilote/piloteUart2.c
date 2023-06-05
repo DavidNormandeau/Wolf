@@ -44,7 +44,7 @@ unsigned char piloteUart2_octetDisponible()
     {
         return PILOTEUART2_PAS_DISPONIBLE;
     }
-    ESP_LOGI(TAG, "Octet disponible");
+    //ESP_LOGI(TAG, "Octet disponible");
     return PILOTEUART2_DISPONIBLE;
 }
 

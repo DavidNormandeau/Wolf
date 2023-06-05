@@ -17,11 +17,7 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-typedef struct 
-{
-    unsigned char file;
-    unsigned char rank;
-} coordonneeEchiquier_t;
+
 
 typedef struct 
 {

@@ -48,6 +48,8 @@ void coreXY_deplaceEnNombreDeSteps(int nbreDeSteps, direction_t direction, int v
         piloteMoteurDroit_metDirA(TOURNE_A_DROITE);
     }
 
+    piloteMoteurDroit_enable(); //Enable les 2 moteurs
+
     //steps
     //Peut-être un flag pour l'arreter en cours de mouvement?????????????????
     for(int i = 0; i < nbreDeSteps; i++)
@@ -75,6 +77,8 @@ void coreXY_deplaceEnNombreDeSteps(int nbreDeSteps, direction_t direction, int v
         piloteMoteurDroit_metStepA(0); 
         vTaskDelay(pdMS_TO_TICKS(vitesse));
     }
+
+    piloteMoteurDroit_disable();    //Disable les 2 moteurs
 }
 
 
@@ -82,4 +86,5 @@ void coreXY_initialise(void)
 {
     piloteMoteurGauche_metStepA(0);
     piloteMoteurDroit_metStepA(0);
+    piloteMoteurDroit_disable();        
 }

@@ -24,6 +24,8 @@
 //Fonctions publiques:
 void piloteMoteurGauche_metDirA(unsigned char valeur);
 void piloteMoteurGauche_metStepA(unsigned char valeur);
+void piloteMoteurGauche_enable(void);
+void piloteMoteurGauche_disable(void);
 void piloteMoteurGauche_initialise(void);
 
 //Variables publiques:

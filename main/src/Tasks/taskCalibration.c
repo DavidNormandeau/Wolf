@@ -4,8 +4,10 @@
 
 //INCLUSIONS
 #include "define.h"
-#include "piloteLimitSwitchX.h"
-#include "piloteLimitSwitchY.h"
+// #include "piloteLimitSwitchX.h"
+// #include "piloteLimitSwitchY.h"
+#include "limitSwitchX.h"
+#include "limitSwitchY.h"
 #include "coreXY.h"
 #include "taskCalibration.h"
 
@@ -41,7 +43,7 @@ void taskCalibration(void * pvParameters)
         xSemaphoreTake(semaphoreDebutCalibration, portMAX_DELAY);
 
         //Déplacement lent vers limit switch X
-        while(piloteLimitSwitchX_litLEntree() == 1) //à modifier, remplacer par interfaceLimitSwitchX
+        while(limitSwitchX_litLEtat() == LIMITSWITCHX_ETAT_SI_BOUTON_RELACHE) 
         {
             coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_ENTRE_LECTURE_LIMIT_SWITCH, 
                                             A_TO_H, 
@@ -49,7 +51,7 @@ void taskCalibration(void * pvParameters)
         }
 
         //Déplacement lent vers limit switch Y
-        while(piloteLimitSwitchY_litLEntree() == 1) //à modifier
+        while(limitSwitchY_litLEtat() == LIMITSWITCHY_ETAT_SI_BOUTON_RELACHE) 
         {
             coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_ENTRE_LECTURE_LIMIT_SWITCH, 
                                             _8_TO_1, 
@@ -64,6 +66,9 @@ void taskCalibration(void * pvParameters)
         coreXY_deplaceEnNombreDeSteps(  CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_RANK, 
                                         _1_TO_8, 
                                         CALIBRATION_VITESSE_RAPIDE);
+
+        positionChariot.file = CHARIOT_POSITION_INITIALE_FILE;
+        positionChariot.rank = CHARIOT_POSITION_INITIALE_RANK;
 
         //dire que la calibration est terminée
         xSemaphoreGive(semaphoreFinCalibration);

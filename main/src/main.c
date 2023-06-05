@@ -24,8 +24,9 @@ static const char* TAG = "MAIN";
 void main_initialise();
 
 //Definitions de variables publiques:
-unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
+// unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
 unsigned char tabPieceDetecteeSurEchiquier[8][8];
+coordonneeEchiquier_t positionChariot;
 // position_piece_t pieceDetecteeSurEchiquier;
 // position_piece_t pieceDetecteeSurEchiquierPrecedent;
 

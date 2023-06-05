@@ -43,38 +43,31 @@
 #define PILOTEELECTROAIMANT_PIN                 GPIO_NUM_2
 #define PILOTEUART2_TX_PIN                      GPIO_NUM_17
 #define PILOTEUART2_RX_PIN                      GPIO_NUM_16
-// #define PILOTECLKBTNB_PIN                       GPIO_NUM_12
-// #define PILOTECLKBTNW_PIN                       GPIO_NUM_39
+#define PILOTEMOTEURDROIT_ENABLE_PIN            GPIO_NUM_14
+#define PILOTEMOTEURGAUCHE_ENABLE_PIN           GPIO_NUM_14
 
 #define DETECTIONPIECE_VALEUR_SI_PIECE_DETECTE      0
 #define DETECTIONPIECE_VALEUR_SI_CASE_VIDE          1
 #define ELECTROAIMANT_VALEUR_POUR_ACTIVER_AIMANT    1
 #define ELECTROAIMANT_VALEUR_POUR_ETEINDRE_AIMANT   0    
-// #define INTERFACEB1_VALEUR_LUE_SI_APPUYE  0   
-// #define INTERFACEB1_VALEUR_LUE_SI_RELACHE 1
-// #define INTERFACEB1_DELAI_ANTI_REBOND_EN_MS  15
-// #define INTERFACET1_VALEUR_POUR_ALLUMER  0   
-// #define INTERFACET1_VALEUR_POUR_ETEINDRE 1
+
 
 //Dependances logicielles:
 #define PILOTEUART_BAUD_RATE 115200
-// #define INTERFACEB1_FREQUENCE_DES_LECTURES_EN_HZ  100.0
-// #define INTERFACEB1_NOMBRE_MINIMUM_DE_LECTURES_PAR_DECISION 10
-// #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_TRANSMISSIONS_EN_HZ 500.0
+
 #define TASKTXUART_NOMBRE_DE_DONNEES_MAXIMUM    16
 #define TASKRXUART_NOMBRE_DE_DONNEES_MAXIMUM    TASKTXUART_NOMBRE_DE_DONNEES_MAXIMUM
 #define TASKRXUART_DEBUT_DE_TRAME               '$'
 #define TASKTXUART_DEBUT_DE_TRAME               TASKRXUART_DEBUT_DE_TRAME 
 #define TASKTXUART_INSERTION                    0x00
 #define TASKRXUART_INSERTION                    TASKTXUART_INSERTION
-// #define SERVICEPROTOCOLE637_TEMPS_D_ATTENTE_MAXIMAL_EN_MS 4
-// #define SERVICEPROTOCOLE637_FREQUENCE_MAXIMALE_DES_LECTURES_EN_HZ 2000.0
-#define NBRE_DE_STEP_DANS_UNE_CASE  (2*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) 
-#define NBRE_DE_STEP_DANS_UNE_DEMI_CASE  94
-#define COEFFICIENT_DIAGONALE       1.97  //Meilleur: entre 1.95 et 2
 
-#define CHARIOT_POSITION_INITIALE_FILE    9     //E7
-#define CHARIOT_POSITION_INITIALE_RANK    13
+#define NBRE_DE_STEP_DANS_UNE_CASE              (2*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) 
+#define NBRE_DE_STEP_DANS_UNE_DEMI_CASE         94
+#define COEFFICIENT_DIAGONALE                   1.97  
+
+#define CHARIOT_POSITION_INITIALE_FILE          9     //E7
+#define CHARIOT_POSITION_INITIALE_RANK          13
 
 //Tasks
 #define TASKTXUART_STACK_SIZE             (2*1024)
@@ -145,14 +138,20 @@ typedef enum
    ROQUE_LONG_NOIR
 } type_deplacement_piece_t;
 
+typedef struct 
+{
+    unsigned char file;
+    unsigned char rank;
+} coordonneeEchiquier_t;
+
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
 // #define INFORMATION_DISPONIBLE  1
 // #define INFORMATION_TRAITEE  0
 #define REQUETE_ACTIVE        1
 #define REQUETE_TRAITEE       0
-#define BOUTON_A_ETE_APPUYE   1
-#define BOUTON_PAS_ETE_APPUYE 0
+#define BOUTON_A_ETE_APPUYE   '1'
+#define BOUTON_PAS_ETE_APPUYE '0'
 
 // #define MODULE_EN_FONCTION 1
 // #define MODULE_PAS_EN_FONCTION 0
@@ -164,8 +163,9 @@ typedef enum
 // extern unsigned char tabPieceDetecteeSurEchiquier[64];
 // extern unsigned char tabPieceDetecteeSurEchiquierPrecedent[64];
 extern unsigned char tabPieceDetecteeSurEchiquier[8][8];
-extern unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
-extern position_piece_t pieceDetecteeSurEchiquier;
-extern position_piece_t pieceDetecteeSurEchiquierPrecedent;
+// extern unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
+// extern position_piece_t pieceDetecteeSurEchiquier;
+// extern position_piece_t pieceDetecteeSurEchiquierPrecedent;
+extern coordonneeEchiquier_t positionChariot;
 #endif
 

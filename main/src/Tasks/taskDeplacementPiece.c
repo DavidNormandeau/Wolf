@@ -27,7 +27,6 @@ void deplaceRoqueLongNoir();
 void taskDeplacementPiece_prepareDeplacementAFaire();
 
 //Definitions de variables privees:
-coordonneeEchiquier_t positionChariot;
 info_deplacement_t taskDeplacementPiece_deplacementAFaire;
 
 //Definitions de fonctions privees:
