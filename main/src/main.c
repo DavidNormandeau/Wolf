@@ -22,13 +22,11 @@ static const char* TAG = "MAIN";
 
 //Declarations de fonctions privees:
 void main_initialise();
+void main_test();
 
 //Definitions de variables publiques:
-// unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
 unsigned char tabPieceDetecteeSurEchiquier[8][8];
 coordonneeEchiquier_t positionChariot;
-// position_piece_t pieceDetecteeSurEchiquier;
-// position_piece_t pieceDetecteeSurEchiquierPrecedent;
 
 
 //Definitions de variables privees:
@@ -42,8 +40,36 @@ void app_main(void)
     ESP_LOGI(TAG, "Task, Queue and Semaphore created!");  
 
     while(1)
-    {
-        //Test coreXY
+    {                
+        // vTaskDelay(1000/portTICK_PERIOD_MS);
+        // main_test();        
+    }
+}
+
+
+
+void main_initialise()
+{
+    piloteDetectionPiece_initialise();
+    piloteElectroaimant_initialise();
+    piloteLimitSwitchX_initialise();
+    piloteLimitSwitchY_initialise();
+    piloteMoteurGauche_initialise();
+    piloteMoteurDroit_initialise();
+    piloteUart2_initialise();    
+    detectionPiece_initialise();
+    electroaimant_initialise();
+    coreXY_initialise();
+    taskTxUart_initialise();
+    taskRxUart_initialise();
+    taskCalibration_initialise();
+    taskDeplacementPiece_initialise();
+    taskGestionControleur1_initialise();
+}
+
+void main_test()
+{
+    //Test coreXY
         // ESP_LOGI(TAG, "H1 to A8");
         // coreXY_deplaceEnNombreDeSteps(500, H1_TO_A8, 1);
         // vTaskDelay(1000/portTICK_PERIOD_MS);
@@ -180,35 +206,6 @@ void app_main(void)
         // printf("A6: %d  ", detectionPiece_litLaCase(A6));
         // printf("A7: %d  ", detectionPiece_litLaCase(A7));
         // printf("A8: %d  \n", detectionPiece_litLaCase(A8));
-        
-                
-        vTaskDelay(1000/portTICK_PERIOD_MS);  
-
-        
-        
-    }
 }
-
-
-
-void main_initialise()
-{
-    piloteDetectionPiece_initialise();
-    piloteElectroaimant_initialise();
-    piloteLimitSwitchX_initialise();
-    piloteLimitSwitchY_initialise();
-    piloteMoteurGauche_initialise();
-    piloteMoteurDroit_initialise();
-    piloteUart2_initialise();    
-    detectionPiece_initialise();
-    electroaimant_initialise();
-    coreXY_initialise();
-    taskTxUart_initialise();
-    taskRxUart_initialise();
-    taskCalibration_initialise();
-    taskDeplacementPiece_initialise();
-    taskGestionControleur1_initialise();
-}
-
 
 

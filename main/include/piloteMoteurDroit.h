@@ -2,7 +2,6 @@
 #define PILOTEMOTEURDROIT_H
 
 //MODULE: piloteMoteurDroit
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 

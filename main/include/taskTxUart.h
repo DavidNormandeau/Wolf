@@ -2,16 +2,12 @@
 #define TASKTXUART_H
 
 //MODULE: taskTxUart
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-04-25, David Normandeau, creation
 
 //DEFINITIONS REQUISES PAR LE MODULE:
 //Dependances materielles
 //(copiez et adaptez ce qui suit dans "define.h")
-
-
-
 
 
 //Dependances logicielles

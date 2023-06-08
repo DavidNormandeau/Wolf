@@ -63,19 +63,10 @@ unsigned char detectionPiece_litLaCase(case_t caseALire)
     }
 
     
-    vTaskDelay(1); //à modifier pour meilleur performance
+    vTaskDelay(1);
 
     return piloteDetectionPiece_litCOM();
 }
-
-// void detectionPiece_litLEchiquier(unsigned char* echiquier)
-// {
-//     unsigned char i;
-//     for(i = A1; i <= H8; i++)
-//     {
-//         echiquier[i] = detectionPiece_litLaCase(i);
-//     }
-// }
 
 void detectionPiece_litLEchiquier8x8(unsigned char echiquier[8][8])
 {

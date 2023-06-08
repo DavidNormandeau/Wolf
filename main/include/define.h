@@ -63,11 +63,14 @@
 #define TASKRXUART_INSERTION                    TASKTXUART_INSERTION
 
 #define NBRE_DE_STEP_DANS_UNE_CASE              (2*NBRE_DE_STEP_DANS_UNE_DEMI_CASE) 
-#define NBRE_DE_STEP_DANS_UNE_DEMI_CASE         94
-#define COEFFICIENT_DIAGONALE                   1.97  
+#define NBRE_DE_STEP_DANS_UNE_DEMI_CASE         93
+#define COEFFICIENT_DIAGONALE                   1.98  
 
-#define CHARIOT_POSITION_INITIALE_FILE          9     //E7
-#define CHARIOT_POSITION_INITIALE_RANK          13
+#define CHARIOT_POSITION_INITIALE_FILE          9     //E2
+#define CHARIOT_POSITION_INITIALE_RANK          3
+
+#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_FILE 645 
+#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_RANK 210
 
 //Tasks
 #define TASKTXUART_STACK_SIZE             (2*1024)
@@ -146,26 +149,13 @@ typedef struct
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-// #define INFORMATION_DISPONIBLE  1
-// #define INFORMATION_TRAITEE  0
-#define REQUETE_ACTIVE        1
-#define REQUETE_TRAITEE       0
-#define BOUTON_A_ETE_APPUYE   '1'
-#define BOUTON_PAS_ETE_APPUYE '0'
-
-// #define MODULE_EN_FONCTION 1
-// #define MODULE_PAS_EN_FONCTION 0
+//pas de definitions publiques
 
 //Fonctions publiques:
 //pas de fonctions publiques
 
 //Variables publiques:
-// extern unsigned char tabPieceDetecteeSurEchiquier[64];
-// extern unsigned char tabPieceDetecteeSurEchiquierPrecedent[64];
 extern unsigned char tabPieceDetecteeSurEchiquier[8][8];
-// extern unsigned char tabPieceDetecteeSurEchiquierPrecedent[8][8];
-// extern position_piece_t pieceDetecteeSurEchiquier;
-// extern position_piece_t pieceDetecteeSurEchiquierPrecedent;
 extern coordonneeEchiquier_t positionChariot;
 #endif
 

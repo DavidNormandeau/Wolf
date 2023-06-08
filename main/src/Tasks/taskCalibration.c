@@ -4,8 +4,6 @@
 
 //INCLUSIONS
 #include "define.h"
-// #include "piloteLimitSwitchX.h"
-// #include "piloteLimitSwitchY.h"
 #include "limitSwitchX.h"
 #include "limitSwitchY.h"
 #include "coreXY.h"
@@ -16,8 +14,7 @@ static const char* TAG = "TASK CALIBRATION";
 #define CALIBRATION_NBRE_DE_STEP_ENTRE_LECTURE_LIMIT_SWITCH 4
 #define CALIBRATION_VITESSE_LENTE                           3   //en ms
 #define CALIBRATION_VITESSE_RAPIDE                          1   //en ms
-#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_FILE (7*NBRE_DE_STEP_DANS_UNE_DEMI_CASE - 12) 
-#define CALIBRATION_NBRE_DE_STEP_VERS_POSITION_INITIAL_RANK (12*NBRE_DE_STEP_DANS_UNE_DEMI_CASE + 4)
+
 
 //Declarations de fonctions privees:
 //pas de fonctions privees
@@ -87,7 +84,6 @@ void taskCalibration_initialise(void)
 {
     semaphoreDebutCalibration = xSemaphoreCreateBinary();
     semaphoreFinCalibration = xSemaphoreCreateBinary();
-    // queueStatutCalibration = xQueueCreate(1, sizeof(unsigned char));
 
     xTaskCreatePinnedToCore(taskCalibration, 
                             "TaskCalibration", 
@@ -97,9 +93,4 @@ void taskCalibration_initialise(void)
                             &xHandleTaskCalibration, 
                             TASKCALIBRATION_CORE
     );
-
-
-
-
-
 }

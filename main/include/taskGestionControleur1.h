@@ -2,7 +2,6 @@
 #define TASKGESTIONCONTROLEUR1_H
 
 //MODULE: taskGestionControleur1
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-04-25, David Normandeau, creation
 
@@ -17,13 +16,7 @@
 
 //INFORMATION PUBLIQUE:
 //Definitions publiques:
-typedef enum
-{
-    MODE_HvsH = 0,
-    MODE_HvsPC,
-    MODE_HvsIA
-} mode_jeu_t;
-
+//pas de definitions publiques
 
 //Fonctions publiques:
 void taskGestionControleur1(void *pvParameters);

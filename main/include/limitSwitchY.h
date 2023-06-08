@@ -2,7 +2,6 @@
 #define LIMITSWITCHY_H
 
 //MODULE: limitSwitchY
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 

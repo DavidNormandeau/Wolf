@@ -45,6 +45,16 @@ void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiqu
     
     ESP_LOGI(TAG, "deplacementXenSteps: %d, deplacementYenSteps: %d", deplacementXenSteps, deplacementYenSteps);
 
+
+    if(positionFinale.rank > positionInitiale.rank)
+    {
+        coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _1_TO_8, vitesse);
+    }
+    else if(positionFinale.rank < positionInitiale.rank)
+    {
+        coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _8_TO_1, vitesse);
+    }
+
     if(positionFinale.file > positionInitiale.file)
     {
         coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, A_TO_H, vitesse);
@@ -54,15 +64,7 @@ void deplaceALaPosition(coordonneeEchiquier_t positionInitiale, coordonneeEchiqu
         coreXY_deplaceEnNombreDeSteps(deplacementXenSteps, H_TO_A, vitesse);
     }
 
-    if(positionFinale.rank > positionInitiale.rank)
-    {
-        coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _1_TO_8, VITESSE_RAPIDE);
-    }
-    else if(positionFinale.rank < positionInitiale.rank)
-    {
-        coreXY_deplaceEnNombreDeSteps(deplacementYenSteps, _8_TO_1, VITESSE_RAPIDE);
-    }
-
+    vTaskDelay(500/portTICK_PERIOD_MS);
     electroaimant_eteint();
 
     positionChariot.file = positionFinale.file;
@@ -322,8 +324,6 @@ void taskDeplacementPiece_prepareDeplacementAFaire()
 QueueHandle_t queueDeplacementPiece;
 SemaphoreHandle_t semaphoreFinDeplacementPiece;
 TaskHandle_t xHandleTaskDeplacementPiece = NULL;
-//DEPLACEMENTPIECE deplacementPiece;
-
 
 
 //Definitions de fonctions publiques:

@@ -2,7 +2,6 @@
 #define TASKDEPLACEMENTPIECE_H
 
 //MODULE: taskDeplacementPiece
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-04-25, David Normandeau, creation
 

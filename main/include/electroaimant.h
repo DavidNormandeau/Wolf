@@ -2,7 +2,6 @@
 #define ELECTROAIMANT_H
 
 //MODULE: electroaimant
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-04-02, David Normandeau, creation
 

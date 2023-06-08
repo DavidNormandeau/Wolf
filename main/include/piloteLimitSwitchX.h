@@ -2,7 +2,6 @@
 #define PILOTELIMITSWITCHX_H
 
 //MODULE: piloteLimitSwitchX
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 

@@ -2,7 +2,6 @@
 #define PILOTEELECTROAIMANT_H
 
 //MODULE: piloteElectroaimant
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 

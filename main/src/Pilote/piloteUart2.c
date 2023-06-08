@@ -8,7 +8,7 @@
 #include "piloteUart2.h"
 
 //Definitions privees
-static const char* TAG = "PILOTE UART2";
+//static const char* TAG = "PILOTE UART2";
 #define RX_TIMEOUT (100/ portTICK_PERIOD_MS)
 #define TX_TIMEOUT (100/ portTICK_PERIOD_MS)
 

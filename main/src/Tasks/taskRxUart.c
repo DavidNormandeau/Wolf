@@ -132,7 +132,7 @@ void taskRxUart_attendUnChecksum(void)
     if (taskRxUart_reception == taskRxUart_checksumDeReception)
     {
         taskRxUart_info.statut = TASKRXUART_PAS_D_ERREURS;
-        xQueueSend(queueRxUart, &taskRxUart_info, 50/portTICK_PERIOD_MS);                  //TIMEOUT à déterminer
+        xQueueSend(queueRxUart, &taskRxUart_info, 50/portTICK_PERIOD_MS);                  
         ESP_LOGI(TAG, "Message recu: %s", taskRxUart_info.octetsRecus);
         taskRxUart_execute = taskRxUart_attendUnDebut;      
         return;

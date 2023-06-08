@@ -51,7 +51,6 @@ void coreXY_deplaceEnNombreDeSteps(int nbreDeSteps, direction_t direction, int v
     piloteMoteurDroit_enable(); //Enable les 2 moteurs
 
     //steps
-    //Peut-être un flag pour l'arreter en cours de mouvement?????????????????
     for(int i = 0; i < nbreDeSteps; i++)
     {
         if(direction == A1_TO_H8 || direction == H8_TO_A1)

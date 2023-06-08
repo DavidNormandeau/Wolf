@@ -2,7 +2,6 @@
 #define PILOTEDETECTIONPIECE_H
 
 //MODULE: detectionPiece
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 

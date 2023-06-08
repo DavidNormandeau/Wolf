@@ -1,8 +1,7 @@
 #ifndef TASKCALIBRATION_H
 #define TASKCALIBRATION_H
 
-//MODULE: taskCalibration
-//DESCRIPTION: 
+//MODULE: taskCalibration 
 //HISTORIQUE:
 // 2023-04-25, David Normandeau, creation
 

@@ -11,9 +11,6 @@
 //(copiez et adaptez ce qui suit dans "define.h")
 
 
-
-
-
 //Dependances logicielles
 //(copiez et adaptez ce qui suit dans "define.h")
 // pas de dépendances logicielles

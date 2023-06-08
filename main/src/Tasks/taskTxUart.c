@@ -5,7 +5,6 @@
 //INCLUSIONS
 #include "define.h"
 #include "piloteUart2.h"
-#include "taskRxUart.h"     //pour test seulement
 #include "taskTxUart.h"
 
 //Definitions privees
@@ -54,7 +53,6 @@ void taskTxUart()
 
     while(1)
     {
-        // if(xQueueReceive(queueRxUart, &taskTxUart_infoRecu, portMAX_DELAY) != pdTRUE)     //POUR TEST SEULEMENT
         if(xQueueReceive(queueTxUart, &taskTxUart_infoRecu, portMAX_DELAY) != pdTRUE)
         {
           ESP_LOGE(TAG, "Erreur: Reception QueueTxUart failed");

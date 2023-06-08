@@ -2,7 +2,6 @@
 #define LIMITSWITCHX_H
 
 //MODULE: limitSwitchX
-//DESCRIPTION: 
 //HISTORIQUE:
 // 2023-03-30, David Normandeau, creation
 
